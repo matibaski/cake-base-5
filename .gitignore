@@ -3,6 +3,7 @@
 /config/.env
 /logs/*
 /tmp/*
+/config/settings.php
 
 # 3rd-party plugins
 /webroot/plugins/*
