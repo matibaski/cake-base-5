@@ -1,0 +1,66 @@
+{#
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+{% set fields = Bake.filterFields(fields, schema, modelObject) %}
+{% if 'add' not in action %}
+{% endif %}
+{%- set done = [] %}
+<div class="row">
+	<div class="col-sm-10 offset-sm-1">
+		<div class="{{ pluralVar }} form content card p-3">
+			<?= $this->Form->create(${{ singularVar }}) ?>
+				<fieldset>
+					<?php
+{% for field in fields %}
+{%- if field not in primaryKey %}
+	{%- if keyFields[field] %}
+		{%- set fieldData = Bake.columnData(field, schema) %}
+		{%- if fieldData.null %}
+					echo $this->Form->control('{{ field }}', ['class' => 'form-control mb-2', 'options' => ${{ keyFields[field] }}, 'empty' => true]);
+					{{- "\n" }}
+		{%- else %}
+					echo $this->Form->control('{{ field }}', ['class' => 'form-control mb-2', 'options' => ${{ keyFields[field] }}]);
+					{{- "\n" }}
+		{%- endif %}
+	{%- elseif field not in ['created', 'modified', 'updated'] %}
+		{%- set fieldData = Bake.columnData(field, schema) %}
+		{%- if fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
+					echo $this->Form->control('{{ field }}', ['class' => 'form-control mb-2', 'empty' => true]);
+					{{- "\n" }}
+		{%- else %}
+					echo $this->Form->control('{{ field }}', ['class' => 'form-control mb-2']);
+					{{- "\n" }}
+		{%- endif %}
+	{%- endif %}
+{%- endif %}
+{%- endfor %}
+
+{%- if associations.BelongsToMany %}
+{%- for assocName, assocData in associations.BelongsToMany %}
+					echo $this->Form->control('{{ assocData.property }}._ids', ['class' => 'form-control mb-2', 'options' => ${{ assocData.variable }}]);
+					{{- "\n" }}
+{%- endfor %}
+{% endif %}
+					?>
+				</fieldset>
+				<div class="mt-3">
+					<?= $this->Form->button(__('Submit'), ['class'=>'btn btn-primary']); ?>
+					<?= $this->Html->link(__('Cancel'), $this->request->referer(), ['class'=>'btn btn-secondary']) ?>
+					<?= $this->Form->end() ?>
+				</div>
+			<?= $this->Form->end() ?>
+		</div>
+	</div>
+</div>
