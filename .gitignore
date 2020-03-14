@@ -4,6 +4,11 @@
 /logs/*
 /tmp/*
 
+# 3rd-party plugins
+/webroot/plugins/*
+!/webroot/plugins/popper.min.js
+!/webroot/plugins/nestable
+!/webroot/plugins/jquery-easing
 
 # Third party programs
 /composer.lock
