@@ -35,7 +35,7 @@ class UsersController extends AppController
      */
     public function view($id)
     {
-        $user = $this->Users->find()->contain('Profiles')->where(['users.id' => $id])->first();
+        $user = $this->Users->find()->contain('Profiles')->where(['Users.id' => $id])->first();
 
         if(!$user) {
             throw new NotFoundException(__('User not found'));
