@@ -36,7 +36,7 @@ class SettingsController extends AppController
             } else {
                 $this->Flash->error(__('The navigation could not be saved. Please, try again.'));
             }
-            return $this->redirect($this->referer());
+            return $this->redirect(['action' => 'settings']);
 		}
 
 		$this->set(compact('settings'));
