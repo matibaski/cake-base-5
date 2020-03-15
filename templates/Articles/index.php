@@ -17,15 +17,14 @@ $headerLinks = [
 $this->assign('header_title_top', 'Articles');
 $this->assign('header_links', serialize($headerLinks));
 ?>
-<div class="articles index content col-sm-12 card p-4 mb-4">
+<div class="articles index content col-sm-10 offset-sm-1 card p-4 mb-4">
     <?php if(count($articles) > 0): ?>
         <div class="table-responsive">
             <table class="table no-border-top">
                 <thead>
                     <tr>
-                        <th><?= $this->Paginator->sort('id') ?></th>
-                        <th><?= $this->Paginator->sort('user_id') ?></th>
                         <th><?= $this->Paginator->sort('title') ?></th>
+                        <th><?= $this->Paginator->sort('user_id') ?></th>
                         <th><?= $this->Paginator->sort('created') ?></th>
                         <th><?= $this->Paginator->sort('modified') ?></th>
                         <th class="actions"><?= __('Actions') ?></th>
@@ -34,9 +33,8 @@ $this->assign('header_links', serialize($headerLinks));
                 <tbody>
                     <?php foreach ($articles as $article): ?>
                         <tr>
-                            <td><?= $this->Number->format($article->id) ?></td>
+                            <td><?= $this->Html->link(h($article->title), ['action' => 'view', $article->id]) ?></td>
                             <td><?= $article->has('user') ? $this->Html->link($article->user->profile->name, ['controller' => 'Users', 'action' => 'view', $article->user->id]) : '' ?></td>
-                            <td><?= h($article->title) ?></td>
                             <td><?= $this->Time->format($article->created, "dd.MM.Y H:m:s") ?></td>
                             <td><?= $this->Time->format($article->modified, "dd.MM.Y H:m:s") ?></td>
                             <td class="actions">
