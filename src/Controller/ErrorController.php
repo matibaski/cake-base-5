@@ -76,19 +76,8 @@ class ErrorController extends AppController
 
         // check if user is logged in
         if(isset($_SESSION['Auth']) && !empty($_SESSION['Auth'])) {
-            $this->loadModel('Profiles');
-            $user = $_SESSION['Auth'];
-            $authUser = [
-                'id' => $user->id,
-                'username' => $user->username,
-                'role' => $user->role,
-                'active' => $user->active,
-                'disabled' => $user->disabled,
-                'created' => $user->created,
-                'modified' => $user->modified,
-                //'profile' => $this->Profiles->get(['user_id' => $user->id])
-                'profile' => $this->Profiles->find()->where(['user_id' => $user->id])->first()
-            ];
+            $this->loadModel('Users');
+            $authUser = $this->Users->find()->where(['Users.id' => $_SESSION['Auth']->id])->contain(['Profiles'])->first();
 
             // fetch notifications
             $this->loadComponent('Notification');
