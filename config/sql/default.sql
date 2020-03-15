@@ -52,8 +52,8 @@ INSERT INTO `articles` (`id`, `user_id`, `title`, `body`, `created`, `modified`)
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
-  `to_user` int(11) NOT NULL DEFAULT '0',
-  `from_user` int(11) NOT NULL DEFAULT '0',
+  `to_user_id` int(11) NOT NULL,
+  `from_user_id` int(11) NOT NULL,
   `message` text,
   `seen` tinyint(1) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL
@@ -63,7 +63,7 @@ CREATE TABLE `messages` (
 -- Daten für Tabelle `messages`
 --
 
-INSERT INTO `messages` (`id`, `to_user`, `from_user`, `message`, `seen`, `created`) VALUES
+INSERT INTO `messages` (`id`, `to_user_id`, `from_user_id`, `message`, `seen`, `created`) VALUES
 (1, 1, 2, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 1, '2020-03-12 18:41:02');
 
 -- --------------------------------------------------------
