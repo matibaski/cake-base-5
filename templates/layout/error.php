@@ -59,13 +59,13 @@
                 <div class="container-fluid">
                     <!-- Begin Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800"><?= ($debug && $authUser['role'] == 'admin') ? $this->fetch('title') : ''; ?></h1>
+                        <h1 class="h3 mb-0 text-gray-800"><?= ($debug && (isset($authUser) && $authUser['role'] != 'admin')) ? $this->fetch('title') : '' ; ?></h1>
                     </div>
                     <!-- End Page Heading -->
                     <?= $this->Flash->render() ?>
-                    <?= (!$debug || $authUser['role'] != 'admin') ? $this->fetch('content') : '' ; ?>
+                    <?= (isset($authUser) && $authUser['role'] != 'admin') ? $this->fetch('content') : '';  ?>
 
-                    <?php if($debug && $authUser['role'] == 'admin'): ?>
+                    <?php if($debug && (isset($authUser) && $authUser['role'] == 'admin')): ?>
                         <div class="error-section">
                             <div class="row">
                                 <div class="col-md-4">
