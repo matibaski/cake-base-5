@@ -69,28 +69,17 @@ class AppController extends Controller
 
         // authenticated user
         if($this->Authentication->getResult()->isValid()) {
-            // get logged in user data
-            $this->loadModel('Profiles');
-            $user = $this->Authentication->getIdentity();
-            $authUser = [
-                'id' => $user->id,
-                'username' => $user->username,
-                'role' => $user->role,
-                'active' => $user->active,
-                'disabled' => $user->disabled,
-                'created' => $user->created,
-                'modified' => $user->modified,
-                //'profile' => $this->Profiles->get(['user_id' => $user->id])
-                'profile' => $this->Profiles->find()->where(['user_id' => $user->id])->first()
-            ];
+            // $authUser = $this->Authentication->getIdentity()->getOriginalData();
+            $this->loadModel('Users');
+            $authUser = $this->Users->find()->where(['Users.id' => $this->Authentication->getIdentity()->id])->contain(['Profiles'])->first();
 
             // fetch notifications
             $this->loadComponent('Notification');
-            $notificationsBar = $this->Notification->fetch($authUser['id']);
+            $notificationsBar = $this->Notification->fetch($authUser->id);
 
             // fetch messages
             $this->loadComponent('Message');
-            $messagesBar = $this->Message->fetch($authUser['id']);
+            $messagesBar = $this->Message->fetch($authUser->id);
 
             $this->set(compact('authUser', 'notificationsBar', 'messagesBar'));
         }
