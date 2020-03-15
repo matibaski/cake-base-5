@@ -31,16 +31,15 @@ class MessageComponent extends Component
 
 	public function fetch($user_id)
 	{
-		
 		// load Model
 		$this->Messages = TableRegistry::get('Messages');
 
 		// get Messages
 		$messages = $this->Messages
 			->find('all')
-			->where(['Messages.to_user' => $user_id])
+			->where(['Messages.to_user_id' => $user_id])
 			->order(['Messages.created' => 'DESC'])
-			->contain(['FromUser' => ['Profiles']])
+			->contain(['FromUsers' => ['Profiles']])
 			->toList();
 
 		return $messages;

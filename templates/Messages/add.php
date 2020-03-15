@@ -23,7 +23,7 @@ $this->assign('header_links', serialize($headerLinks));
 		<?= $this->Form->create($message) ?>
 			<fieldset>
 				<?php
-				echo $this->Form->control('to_user', ['class' => 'form-control mb-2', 'options' => $toUser]);
+				echo $this->Form->control('to_user_id', ['class' => 'form-control mb-2', 'options' => $toUsers]);
 				echo $this->Form->control('message', ['class' => 'form-control mb-2']);
 				?>
 			</fieldset>

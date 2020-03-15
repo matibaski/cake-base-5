@@ -23,7 +23,8 @@ class MessagesControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.Messages',
-        'app.Users'
+        'app.ToUsers',
+        'app.FromUsers',
     ];
 
     /**
@@ -52,16 +53,6 @@ class MessagesControllerTest extends TestCase
      * @return void
      */
     public function testAdd(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

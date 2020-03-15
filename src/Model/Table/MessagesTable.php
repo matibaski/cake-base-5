@@ -45,13 +45,15 @@ class MessagesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('ToUser', [
-            'foreignKey' => 'to_user',
+        $this->belongsTo('ToUsers', [
+            'foreignKey' => 'to_user_id',
+            'joinType' => 'INNER',
             'className' => 'Users',
-            'propertyName' => 'to_user'
+            'propertyName' => 'from_user'
         ]);
-        $this->belongsTo('FromUser', [
-            'foreignKey' => 'from_user',
+        $this->belongsTo('FromUsers', [
+            'foreignKey' => 'from_user_id',
+            'joinType' => 'INNER',
             'className' => 'Users',
             'propertyName' => 'from_user'
         ]);
@@ -89,8 +91,8 @@ class MessagesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        // $rules->add($rules->existsIn(['to_user'], 'Users'));
-        // $rules->add($rules->existsIn(['from_user'], 'Users'));
+        $rules->add($rules->existsIn(['to_user_id'], 'ToUsers'));
+        $rules->add($rules->existsIn(['from_user_id'], 'FromUsers'));
 
         return $rules;
     }

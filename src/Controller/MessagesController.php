@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Http\Exception\NotFoundException;
-
 /**
  * Messages Controller
  *
@@ -23,8 +21,8 @@ class MessagesController extends AppController
     {
         $messages = $this->paginate($this->Messages
             ->find('all')
-            ->contain(['FromUser' => ['Profiles'], 'ToUser' => ['Profiles']])
-            ->where(['Messages.to_user' => $this->Authentication->getIdentity()->id])
+            ->contain(['FromUsers' => ['Profiles'], 'ToUsers' => ['Profiles']])
+            ->where(['Messages.to_user_id' => $this->Authentication->getIdentity()->id])
             ->order(['Messages.created' => 'DESC'])
         );
 
@@ -41,13 +39,12 @@ class MessagesController extends AppController
     public function view($id = null)
     {
         $message = $this->Messages->get($id, [
-            'contain' => ['FromUser' => ['Profiles'], 'ToUser' => ['Profiles']],
+            'contain' => ['ToUsers' => ['Profiles'], 'FromUsers' => ['Profiles']],
         ]);
 
         if(!$message->seen) {
             $message = $this->Messages->patchEntity($message, ['seen' => true]);
             $this->Messages->save($message);
-            return $this->redirect(['action' => 'view', $message->id]);
         }
 
         $this->set('message', $message);
@@ -62,15 +59,10 @@ class MessagesController extends AppController
     {
         $message = $this->Messages->newEmptyEntity();
         if ($this->request->is('post')) {
-
-            // manipulate data
             $data = $this->request->getData();
-            $data['from_user'] = $this->Authentication->getIdentity()->id;
-            $data['to_user'] = (int) $data['to_user'];
             $data['seen'] = false;
-
+            $data['from_user_id'] = $this->Authentication->getIdentity()->id;
             $message = $this->Messages->patchEntity($message, $data);
-
             if ($this->Messages->save($message)) {
                 $this->Flash->success(__('The message has been saved.'));
 
@@ -78,8 +70,9 @@ class MessagesController extends AppController
             }
             $this->Flash->error(__('The message could not be saved. Please, try again.'));
         }
-        $toUser = $this->Messages->ToUser->find('list', ['limit' => 200]);
-        $this->set(compact('message', 'toUser'));
+        $toUsers = $this->Messages->ToUsers->find('list', ['limit' => 200]);
+        $fromUsers = $this->Messages->FromUsers->find('list', ['limit' => 200]);
+        $this->set(compact('message', 'toUsers', 'fromUsers'));
     }
 
     /**
@@ -100,32 +93,5 @@ class MessagesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
-
-    /**
-     * toggle method for switching boolean values
-     *
-     * @param string $id
-     * @param string $field
-     * @return void
-     */
-    public function toggle($id = null, $field = null) {
-        $message = $this->Messages->get($id);
-        if (!$message) {
-            throw new NotFoundException(__('Invalid message'));
-        }
-        
-        $toggle = [
-            $field => !$message->$field
-        ];
-        ($toggle[$field]) ? $newVal = 'true' : $newVal = 'false';
-
-        $message = $this->Messages->patchEntity($message, $toggle);
-        if($this->Messages->save($message)) {
-            $this->Flash->success(__('Field <strong>{0}</strong> set to {1}', $field, $newVal), ['escape'=>false]);
-        } else {
-            $this->Flash->error(__('Field <strong>{0}</strong> could not set to {1}', $field, $newVal), ['escape'=>false]);
-        }
-        return $this->redirect($this->referer());  
     }
 }

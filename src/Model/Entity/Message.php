@@ -9,6 +9,8 @@ use Cake\ORM\Entity;
  * Message Entity
  *
  * @property int $id
+ * @property int $to_user_id
+ * @property int $from_user_id
  * @property string|null $message
  * @property bool $seen
  * @property \Cake\I18n\FrozenTime $created
@@ -28,10 +30,12 @@ class Message extends Entity
      * @var array
      */
     protected $_accessible = [
-        'to_user' => true,
-        'from_user' => true,
+        'to_user_id' => true,
+        'from_user_id' => true,
         'message' => true,
         'seen' => true,
         'created' => true,
+        'to_user' => true,
+        'from_user' => true,
     ];
 }

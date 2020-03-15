@@ -52,11 +52,11 @@ $this->assign('header_links', serialize($headerLinks));
             <table class="table no-border-top">
                 <tr>
                     <th><?= __('From') ?></th>
-                    <td><?= h($message->from_user->profile->first_name) . ' ' . h($message->from_user->profile->last_name) ?></td>
+                    <td><?= h($message->from_user->profile->name) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Received') ?></th>
-                    <td><?= h(date("d.m.Y H:i:s", strtotime($message->created))) ?></td>
+                    <td><?= h($message->created->format('d.m.Y H:i:s')) ?></td>
                 </tr>
             </table>
         </div>
