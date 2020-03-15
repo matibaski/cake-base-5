@@ -15,7 +15,7 @@ $headerLinks = [
     ]
 ];
 $loadScripts = [
-    '/plugins/nestable/jquery.nestable.js',
+    '/plugins/jquery-nestable/jquery.nestable.js',
     '/js/navigation.js'
 ];
 
