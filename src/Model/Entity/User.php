@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Model\Entity;
 
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Authentication\IdentityInterface;
 use Cake\ORM\Entity;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * User Entity
@@ -23,7 +25,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Notification[] $notifications
  * @property \App\Model\Entity\Profile $profile
  */
-class User extends Entity
+class User extends Entity implements IdentityInterface
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -66,5 +68,27 @@ class User extends Entity
         if(strlen($password) > 0) {
             return (new DefaultPasswordHasher)->hash($password);
         }
+    }
+
+    /**
+     * Authentication\IdentityInterface method
+     */
+    public function getIdentifier()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Authentication\IdentityInterface method
+     */
+    public function getOriginalData()
+    {
+        $conn = ConnectionManager::get('default');
+        $stmt = $conn->execute('SELECT * FROM profiles WHERE user_id = ' . $this->id);
+        $results = $stmt->fetchAll('assoc');
+
+        $this->profile = $results[0];
+        // debug($this); exit;
+        return $this;
     }
 }
