@@ -25,6 +25,8 @@ $this->assign('header_links', serialize($headerLinks));
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('username') ?></th>
                     <th><?= $this->Paginator->sort('role') ?></th>
+                    <th><?= $this->Paginator->sort('active') ?></th>
+                    <th><?= $this->Paginator->sort('disabled') ?></th>
                     <th><?= $this->Paginator->sort('created') ?></th>
                     <th><?= $this->Paginator->sort('modified') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
@@ -36,6 +38,8 @@ $this->assign('header_links', serialize($headerLinks));
                     <td><?= $this->Number->format($user->id) ?></td>
                     <td><?= h($user->username) ?></td>
                     <td><?= h($user->role) ?></td>
+                    <td><i class="fas fa-fw <?= ($user->active) ? 'fa-check' : 'fa-times'; ?>"></i></td>
+                    <td><i class="fas fa-fw <?= ($user->disabled) ? 'fa-check' : 'fa-times'; ?>"></i></td>
                     <td><?= $this->Time->format($user->created, "dd.MM.YYYY HH:mm") ?></td>
                     <td><?= $this->Time->format($user->modified, "dd.MM.YYYY HH:mm") ?></td>
                     <td class="actions">

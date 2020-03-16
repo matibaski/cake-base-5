@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><?= __('Login') . ' | ' . $settings['backend_name']; ?></title>
+    <title><?= __('Reset password') . ' | ' . $settings['backend_name']; ?></title>
 
     <?= $this->Html->css('theme.min.css') ?>
     <?= $this->fetch('meta') ?>
@@ -32,7 +32,8 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900">Forgot Password?</h1>
+                                        <h2 class="h5 text-gray-500 mb-4">Reset now!</h2>
                                     </div>
                                     <?= $this->Flash->render() ?>
                                     <?= $this->Form->create(null, ['class' => 'user']) ?>
@@ -46,35 +47,13 @@
                                                 'aria-describedby' => 'emailHelp'
                                             ]) ?>
                                         </div>
-                                        <div class="form-group">
-                                            <?= $this->Form->control('password', [
-                                                'label' => false,
-                                                'type' => 'password',
-                                                'required' => true,
-                                                'class' => 'form-control form-control-user',
-                                                'placeholder' => __('Password')
-                                            ]) ?>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <?= $this->Form->checkbox('remember_me', ['class' => 'custom-control-input', 'id' => 'rememberMeCheck']) ?>
-                                                <label class="custom-control-label" for="rememberMeCheck"><?= __('Remember Me') ?></label>
-                                            </div>
-                                        </div>
-                                        <?= $this->Form->button(__('Login'),[
+                                        <?= $this->Form->button(__('Reset Password'),[
                                             'class'=>'btn btn-primary btn-user btn-block'
                                         ]); ?>
-                                        <hr>
-                                        <a href="#" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> <?= __('Login with Google') ?>
-                                        </a>
-                                        <a href="#" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> <?= __('Login with Facebook') ?>
-                                        </a>
                                     <?= $this->Form->end() ?>
                                     <hr>
                                     <div class="text-center">
-                                        <?= $this->Html->link(__('Forgot Password?'), ['action' => 'forgot'], ['class'=>'small']) ?>
+                                        <?= $this->Html->link(__('You know your password? Login now!'), ['action' => 'forgot'], ['class'=>'small']) ?>
                                     </div>
                                     <div class="text-center">
                                         <?= $this->Html->link(__('Create an Account. Register now!'), ['action' => 'register'], ['class'=>'small']) ?>
