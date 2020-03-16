@@ -59,6 +59,8 @@ class UsersTable extends Table
         ]);
         $this->hasOne('Profiles', [
             'foreignKey' => 'user_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
 
         $this->hasMany('MessagesSent', [

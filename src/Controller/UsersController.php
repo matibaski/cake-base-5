@@ -6,9 +6,12 @@ use Cake\Event\EventInterface;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Core\Configure;
 use Cake\Mailer\Mailer;
+use Cake\Mailer\MailerAwareTrait;
 
 class UsersController extends AppController
 {
+    use MailerAwareTrait;
+    
     /**
      * Index method
      * 
@@ -17,8 +20,7 @@ class UsersController extends AppController
     public function index()
     {
         if($this->Authentication->getIdentity()->role != 'admin') {
-            $this->Flash->error(__('You have no rights to access that page'));
-            return $this->redirect($this->referer());
+            return $this->redirect(['action' => 'view', $this->Authentication->getIdentity()->id]);
         }
         $query = $this->Users->find('all');
         $users = $this->paginate($query);
@@ -133,6 +135,19 @@ class UsersController extends AppController
             return $this->redirect($this->request->referer());
         }
 
+        // user already disabled, delete fully
+        if($user->disabled) {
+            if($this->Authentication->getIdentity()->role == 'admin') {
+                $user = $this->Users->find()->where(['Users.id' => $user->id])->contain(['Profiles'])->first();
+                if($this->Users->delete($user)) {
+                    $this->Flash->success(__('User has been deleted.'));
+                    return $this->redirect($this->referer());
+                }
+            } else {
+                $this->Flash->error(__('User is already disabled'));
+                return $this->redirect($this->referer());
+            }
+        }
         $data = ['disabled' => true];
         $user = $this->Users->patchEntity($user, $data);
         if ($this->Users->save($user)) {
@@ -176,28 +191,7 @@ class UsersController extends AppController
             
             $user = $this->Users->newEntity($data, ['associated' => 'Profiles']);
             if ($this->Users->save($user)) {
-
-                // get settings
-                $settings = \Cake\Core\Configure::read('Settings');
-                
-                // send activation mail
-                $mailer = new Mailer('default');
-                $mailer
-                    ->setEmailFormat('html')
-                    ->setFrom([$settings['mail_from_address'] => $settings['mail_from_name']])
-                    ->setTo($user->username)
-                    ->setSubject(__('Activate your {0} Account', $settings['frontend_name']))
-                    ->setViewVars([
-                        'activationHash' => $user->activation_hash,
-                        'created' => date("d.m.Y H:i:s", strtotime($user->created)),
-                        'first_name' => $user->profile->first_name,
-                        'last_name' => $user->profile->last_name,
-                        'settings' => $settings
-                    ])
-                    ->viewBuilder()
-                        ->setTemplate('default')
-                        ->setLayout('register');
-
+                $this->getMailer('User')->send('welcome', [$user]);
                 $this->Flash->success(__('You need to activate your user. Check your emails.'));
                 return $this->redirect(['action' => 'login']);
             }
@@ -235,8 +229,10 @@ class UsersController extends AppController
             
             if($this->Users->save($user)) {
                 $this->Flash->success(__('You can now log in.'));
+                return $this->redirect(['controller' => 'users', 'action' => 'login']);
             }
             $this->Flash->error(__('Could not activate user'));
+            return $this->redirect(['controller' => 'users', 'action' => 'login']);
         
         // user can be activated
         } else {
@@ -247,10 +243,11 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $updateUser);
             if($this->Users->save($user)) {
                 $this->Flash->success(__('You can now log in.'));
+                return $this->redirect(['controller' => 'users', 'action' => 'login']);
             }
             $this->Flash->error(__('Could not activate user'));
+            return $this->redirect(['controller' => 'users', 'action' => 'login']);
         }
-        return $this->redirect(['controller' => 'users', 'action' => 'login']);
     }
 
     /**
@@ -309,6 +306,41 @@ class UsersController extends AppController
     }
 
     /**
+     * Forgot method
+     *
+     * @return \Cake\Http\Response\null
+     */
+    public function forgot()
+    {
+        $this->request->allowMethod(['get', 'post']);
+
+        if($this->request->is('post')) {
+            $data = $this->request->getData();
+            $forgotSuccessMessage = 'If your email address was correct, you\'re going to receive an email';
+
+            $user = $this->Users->find()->where(['username' => $data['username']])->contain(['Profiles'])->first();
+            if(!$user) {
+                $this->Flash->success(__($forgotSuccessMessage));
+                return $this->redirect(['action' => 'login']);
+            } elseif(!$user->active) {
+                return $this->Flash->error(__('Your user is not activated.'));
+            } elseif($user->disabled) {
+                return $this->Flash->error(__('Your user is disabled.'));
+            }
+
+            $newPassword = $this->generatePassword(14);
+            $user = $this->Users->patchEntity($user, ['password' => $newPassword]);
+            if($this->Users->save($user)) {
+                $this->Flash->success(__($forgotSuccessMessage));
+                $this->getMailer('User')->send('forgot', [$user, $newPassword]);
+                return $this->redirect(['action' => 'login']);
+            } else {
+                return $this->Flash->error(__('There was an error resetting your password.'));
+            }
+        }
+    }
+
+    /**
      * Password method
      * 
      * @param  integer $id
@@ -339,7 +371,7 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $data);
             if($this->Users->save($user)) {
                 $this->Flash->success(__('Password has been updated'));
-                return $this->redirect(['action'=>'index']);
+                return $this->redirect(['action' => 'view', $user->id]);
             }
             $this->Flash->error(__('Could not update password. Please, try again.'));
         }
@@ -351,7 +383,7 @@ class UsersController extends AppController
      * @return string  $result
      */
     private function generatePassword($length = 8) {
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?$_#';
         $count = mb_strlen($chars);
 
         for ($i = 0, $result = ''; $i < $length; $i++) {

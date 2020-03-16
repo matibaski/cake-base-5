@@ -61,7 +61,7 @@
 																				<tr>
 																					<td align="left" style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; width: 100%; margin: 0; padding: 20px;">
 																						<div>
-																						<h4 align="center" class="text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;">Thanks for registering on <?= $settings['backend_name'] ?>!</h4>
+																						<h4 align="center" class="text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;">Reset Password</h4>
 																						<div class="hr" style="width: 100%; margin: 20px 0; border: 0;">
 																							<table border="0" cellpadding="0" cellspacing="0" style="font-family: Helvetica, Arial, sans-serif; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-spacing: 0px; border-collapse: collapse; width: 100%;">
 																								<tbody>
@@ -75,7 +75,7 @@
 																						<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" class="table" style="font-family: Helvetica, Arial, sans-serif; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-spacing: 0px; border-collapse: collapse; width: 100%; max-width: 100%;">
 																							<tbody>
 																								<tr>
-																									<td align="center" style="border-top-width: 0; border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-top-color: #e9ecef; border-top-style: solid; margin: 0; padding: 12px; text-align: center;" valign="top">Please activate your new account.</td>
+																									<td align="center" style="border-top-width: 0; border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-top-color: #e9ecef; border-top-style: solid; margin: 0; padding: 12px; text-align: center;" valign="top">Your new password is:<br /><br /><?= $newPassword ?></td>
 																								</tr>
 																							</tbody>
 																						</table>
@@ -92,7 +92,7 @@
 																							<tbody>
 																								<tr>
 																									<td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-radius: 4px; margin: 0;" align="center" bgcolor="#007bff">
-																										<a href="<?= $settings['app_url'] ?>/users/activate/<?= $activationHash ?>" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 4.8px; line-height: 30px; display: inline-block; font-weight: normal; white-space: nowrap; background-color: #007bff; color: #ffffff; padding: 8px 16px; border: 1px solid #007bff;">Activate now</a>
+																										<a href="<?= $settings['app_url'] ?>/" style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 4.8px; line-height: 30px; display: inline-block; font-weight: normal; white-space: nowrap; background-color: #007bff; color: #ffffff; padding: 8px 16px; border: 1px solid #007bff;">Login Now</a>
 																									</td>
 																								</tr>
 																							</tbody>
@@ -101,7 +101,7 @@
 																							<tbody>
 																								<tr>
 																									<td align="center" style="border-top-width: 0; border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 12px; border-top-color: #e9ecef; border-top-style: solid; margin: 0; padding: 12px; text-align: center;" valign="middle">
-																										<i>If the button does not work, copy following URL and paste into browser: <br /><?= $settings['app_url'] ?>/users/activate/<?= $activationHash ?></i>
+																										<i>If the button does not work, copy following URL and paste into browser: <br /><?= $settings['app_url'] ?>/</i>
 																									</td>
 																								</tr>
 																							</tbody>
