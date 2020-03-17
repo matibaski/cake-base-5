@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Cake\Controller\Component;
+namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 use Cake\Http\Exception\InternalErrorException;
