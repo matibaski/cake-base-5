@@ -22,9 +22,7 @@ class MessagesControllerTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.Messages',
-        'app.ToUsers',
-        'app.FromUsers',
+        'app.Messages'
     ];
 
     /**
