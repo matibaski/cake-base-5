@@ -83,6 +83,8 @@ $fa-font-path: "../plugins/font-awesome/webfonts" !default;
 }
 
 div.error-section {
+    margin-top:2rem;
+
     a.toggle-link {
         transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
         border: 1px solid transparent;
@@ -133,11 +135,37 @@ div.error-section {
 
     div.error-inner {
         position:relative;
+        overflow-x:auto;
+        padding:1rem;
+        background:#060606;
+        color:#d4d3d4;
+
+        p {
+            margin:1rem 0;
+        }
 
         a.stack-frame-args {
             position:absolute;
             top:1rem;
             right:1rem;
+        }
+
+        .error {
+            color:inherit;
+            font-size:inherit;
+            position:inherit;
+            line-height:inherit;
+            width:inherit;
+        }
+
+        div.error-suggestion {
+            border-top:1px solid #d4d3d4;
+            margin-top:1rem;
+            padding-top:1rem;
+        }
+
+        div.stack-frame-header {
+            margin-bottom:0.5rem;
         }
     }
 }
@@ -217,38 +245,6 @@ div.navTree ul[data-level] {
     li {
         list-style:none;
         cursor:pointer;
-    }
-}
-
-div.error-section {
-    margin-top:2rem;
-
-    div.error-inner {
-        padding:1rem;
-        background:#060606;
-        color:#d4d3d4;
-
-        p {
-            margin:1rem 0;
-        }
-
-        .error {
-            color:inherit;
-            font-size:inherit;
-            position:inherit;
-            line-height:inherit;
-            width:inherit;
-        }
-
-        div.error-suggestion {
-            border-top:1px solid #d4d3d4;
-            margin-top:1rem;
-            padding-top:1rem;
-        }
-
-        div.stack-frame-header {
-            margin-bottom:0.5rem;
-        }
     }
 }
 
