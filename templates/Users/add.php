@@ -74,13 +74,13 @@ $this->assign('header_links', serialize($headerLinks));
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <?= $this->Form->control('profile.street', ['class'=>'form-control', 'required'=>true]); ?>
+                                <?= $this->Form->control('profile.street', ['class'=>'form-control']); ?>
                             </div>
                             <div class="form-group col-md-2 col-sm-4">
-                                <?= $this->Form->control('profile.zip', ['class'=>'form-control', 'required'=>true]); ?>
+                                <?= $this->Form->control('profile.zip', ['class'=>'form-control']); ?>
                             </div>
                             <div class="form-group col-md-4 col-sm-8">
-                                <?= $this->Form->control('profile.city', ['class'=>'form-control', 'required'=>true]); ?>
+                                <?= $this->Form->control('profile.city', ['class'=>'form-control']); ?>
                             </div>
                         </div>
                         <div class="row">
@@ -88,7 +88,7 @@ $this->assign('header_links', serialize($headerLinks));
                                 <?= $this->Form->control('profile.region', ['class'=>'form-control']); ?>
                             </div>
                             <div class="form-group col-md-6">
-                                <?= $this->Form->control('profile.country', ['class'=>'form-control', 'required'=>true]); ?>
+                                <?= $this->Form->control('profile.country', ['class'=>'form-control']); ?>
                             </div>
                         </div>
                         <div class="row">

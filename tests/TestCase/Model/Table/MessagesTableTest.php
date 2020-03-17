@@ -25,9 +25,7 @@ class MessagesTableTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.Messages',
-        'app.To',
-        'app.From',
+        'app.Messages'
     ];
 
     /**
