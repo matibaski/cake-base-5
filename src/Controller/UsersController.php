@@ -174,6 +174,7 @@ class UsersController extends AppController
      */
     public function register()
     {
+        $this->viewBuilder()->setLayout('splash');
         $user = $this->Users->newEmptyEntity();
 
         if ($this->request->is('post')) {
@@ -181,7 +182,7 @@ class UsersController extends AppController
             // check if passwords match
             $data = $this->request->getData();
             if($data['password'] != $data['password_confirm']) {
-                return $this->Flash->error(__('Passwords do not match.'));
+                return $this->Toast->error(__('Passwords do not match.'));
             }
             unset($data['password_confirm']);
             
@@ -192,10 +193,10 @@ class UsersController extends AppController
             $user = $this->Users->newEntity($data, ['associated' => 'Profiles']);
             if ($this->Users->save($user)) {
                 $this->getMailer('User')->send('welcome', [$user]);
-                $this->Flash->success(__('You need to activate your user. Check your emails.'));
+                $this->Toast->success(__('You need to activate your user. Check your emails.'));
                 return $this->redirect(['action' => 'login']);
             }
-            $this->Flash->error(__('Could not register. Please contact support.'));
+            $this->Toast->error(__('Could not register. Please contact support.'));
         }
 
         $this->set('user', $user);
@@ -204,50 +205,50 @@ class UsersController extends AppController
     /**
      * activate hash
      * @param  string $hash
-     * @return \Cake\Http\Response|null Flash message on login page.
+     * @return \Cake\Http\Response|null Toast message on login page.
      */
     public function activate($hash = null) {
         $this->layout = false;
 
         // check if hash is given
         if(!$hash) {
-            $this->Flash->error(__('No token!'));
+            $this->Toast->error(__('No token!'));
             return $this->redirect(['controller' => 'users', 'action' => 'login']);
         }
 
         // check if hash is valid
         $user = $this->Users->find()->where(['activation_hash' => $hash])->first();
         if(!$user) {
-            $this->Flash->error(__('Invalid token!'));
-            return $this->redirect(['controller' => 'users', 'action' => 'login']);
+            $this->Toast->error(__('Invalid token!'));
         }
 
         // check if user is already active
-        if($user->active) {
+        elseif($user->active) {
             $updateUser = ['activation_hash' => ''];
             $user = $this->Users->patchEntity($user, $updateUser);
             
             if($this->Users->save($user)) {
-                $this->Flash->success(__('You can now log in.'));
-                return $this->redirect(['controller' => 'users', 'action' => 'login']);
+                $this->Toast->success(__('You can now log in.'));
+            } else {
+                $this->Toast->error(__('Could not activate user'));
             }
-            $this->Flash->error(__('Could not activate user'));
-            return $this->redirect(['controller' => 'users', 'action' => 'login']);
-        
+        }
+
         // user can be activated
-        } else {
+        else {
             $updateUser = [
                 'activation_hash' => '',
                 'active' => true
             ];
             $user = $this->Users->patchEntity($user, $updateUser);
             if($this->Users->save($user)) {
-                $this->Flash->success(__('You can now log in.'));
-                return $this->redirect(['controller' => 'users', 'action' => 'login']);
+                $this->Toast->success(__('You can now log in.'));
+            } else {
+                $this->Toast->error(__('Could not activate user'));
             }
-            $this->Flash->error(__('Could not activate user'));
-            return $this->redirect(['controller' => 'users', 'action' => 'login']);
         }
+
+        return $this->redirect(['controller' => 'users', 'action' => 'login']);
     }
 
     /**
@@ -256,6 +257,7 @@ class UsersController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful login, renders view otherwise.
      */
     public function login() {
+        $this->viewBuilder()->setLayout('splash');
         $this->request->allowMethod(['get', 'post']);
 
         $result = $this->Authentication->getResult();
@@ -266,18 +268,18 @@ class UsersController extends AppController
             if(!empty($result->getErrors()) && count($result->getErrors()) > 0) {
                 foreach($result->getErrors() as $error) {
                     if(!empty($error)) {
-                        $this->Flash->error($error);
+                        $this->Toast->error($error);
                     }
                 }
             }
 
             if(!$result->isValid()) {
-                return $this->Flash->error(__('Invalid username or password.'));
+                return $this->Toast->error(__('Invalid username or password.'));
             } elseif(!$identity->active) {
-                $this->Flash->error(__('User is not activated yet.'));
+                $this->Toast->error(__('User is not activated yet.'));
                 return $this->Authentication->logout();
             } elseif($identity->disabled) {
-                $this->Flash->error(__('User is deactivated.'));
+                $this->Toast->error(__('User is deactivated.'));
                 return $this->Authentication->logout();
             }
         }
@@ -312,6 +314,7 @@ class UsersController extends AppController
      */
     public function forgot()
     {
+        $this->viewBuilder()->setLayout('splash');
         $this->request->allowMethod(['get', 'post']);
 
         if($this->request->is('post')) {
@@ -320,22 +323,22 @@ class UsersController extends AppController
 
             $user = $this->Users->find()->where(['username' => $data['username']])->contain(['Profiles'])->first();
             if(!$user) {
-                $this->Flash->success(__($forgotSuccessMessage));
+                $this->Toast->success(__($forgotSuccessMessage));
                 return $this->redirect(['action' => 'login']);
             } elseif(!$user->active) {
-                return $this->Flash->error(__('Your user is not activated.'));
+                return $this->Toast->error(__('Your user is not activated.'));
             } elseif($user->disabled) {
-                return $this->Flash->error(__('Your user is disabled.'));
+                return $this->Toast->error(__('Your user is disabled.'));
             }
 
             $newPassword = $this->generatePassword(14);
             $user = $this->Users->patchEntity($user, ['password' => $newPassword]);
             if($this->Users->save($user)) {
-                $this->Flash->success(__($forgotSuccessMessage));
+                $this->Toast->success(__($forgotSuccessMessage));
                 $this->getMailer('User')->send('forgot', [$user, $newPassword]);
                 return $this->redirect(['action' => 'login']);
             } else {
-                return $this->Flash->error(__('There was an error resetting your password.'));
+                return $this->Toast->error(__('There was an error resetting your password.'));
             }
         }
     }
