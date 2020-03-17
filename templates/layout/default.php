@@ -155,7 +155,10 @@
     </div>
 
     <!-- Toast -->
-    <?= $this->element('toasts') ?>
+    <div id="toast" aria-live="polite" aria-atomic="true">
+        <?= $this->Toast->render() ?>
+        <?= $this->element('toasts') ?>
+    </div>
 
     <?php //= $this->AssetCompress->script('theme'); ?>
     

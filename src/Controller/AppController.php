@@ -47,6 +47,7 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Toast');
 
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login'
