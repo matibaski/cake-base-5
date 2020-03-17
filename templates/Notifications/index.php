@@ -7,7 +7,7 @@ $headerLinks = [];
 $this->assign('header_title_top', 'Notifications');
 $this->assign('header_links', serialize($headerLinks));
 ?>
-<div class="notifications index content col-sm-10 offset-1 card p-3">
+<div class="notifications index content col-sm-10 offset-sm-1 card p-3">
     <?php if(count($notifications) > 0): ?>
         <div class="table-responsive">
             <table class="table no-border-top">
