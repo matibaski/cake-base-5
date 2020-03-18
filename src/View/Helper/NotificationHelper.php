@@ -48,7 +48,7 @@ class NotificationHelper extends Helper
 					<p><strong>${title}</strong><br />${content}</p>
 				</div>
 			</div>
-			HTML;
+HTML;
 		}
 
 		return $notification;
