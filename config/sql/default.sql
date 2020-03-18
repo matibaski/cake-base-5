@@ -135,7 +135,7 @@ CREATE TABLE `profiles` (
   `region` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
-  `mobile` varchar(2555) DEFAULT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL,
   `facebook` varchar(255) DEFAULT NULL,
   `instagram` varchar(255) DEFAULT NULL,

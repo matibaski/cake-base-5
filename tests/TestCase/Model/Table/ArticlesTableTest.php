@@ -58,28 +58,32 @@ class ArticlesTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize(): void
+    public function testFind(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $query = $this->Articles->find();
+        $this->assertInstanceOf('Cake\ORM\Query', $query);
+
+        $result = $query->enableHydration(false)->first();
+        $expected = [
+            'id' => 1, 'title' => 'Lorem ipsum dolor sit amet'
+        ];
+        // print_r($expected); exit;
+        $this->assertTrue($this->arrays_are_similar($expected, $result));
     }
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+    private function arrays_are_similar($a, $b) {
+        // if the indexes don't match, return immediately
+        if (count(array_diff_assoc($a, $b))) {
+            return false;
+        }
+        // we know that the indexes, but maybe not values, match.
+        // compare the values between the two arrays
+        foreach($a as $k => $v) {
+            if ($v !== $b[$k]) {
+                return false;
+            }
+        }
+        // we have identical indexes, and no unequal values
+        return true;
     }
 }

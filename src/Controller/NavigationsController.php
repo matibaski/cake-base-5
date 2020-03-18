@@ -21,6 +21,29 @@ class NavigationsController extends AppController
      */
     public function index()
     {
+        // get current navigation
+        $currentNavigation = \Cake\Core\Configure::read('Navigation');
+
+        // new order
+        $navigations = $this->Navigations->find('all')->toList();
+
+        // reduce to one level array
+        $co = [];
+        $co = $this->flattenArray($currentNavigation, $co, 'children');
+
+        // remove already shown elements from database output
+        $navigations = $this->compareArraysAndRemoveExsting($navigations, $co);
+
+        $this->set(compact('navigations'));
+    }
+
+    /**
+     * Update method
+     * 
+     * @return \Cake\Http\Response\null
+     */
+    public function update()
+    {
         if ($this->request->is(['patch', 'post', 'put'])) {
             // get settings
             $currentNavigation = \Cake\Core\Configure::read('Navigation');
@@ -39,40 +62,9 @@ class NavigationsController extends AppController
             } else {
                 $this->Flash->error(__('The navigation could not be saved. Please, try again.'));
             }
-
-            return $this->redirect($this->referer());
         }
 
-        // get current navigation
-        $currentNavigation = \Cake\Core\Configure::read('Navigation');
-
-        // new order
-        $navigations = $this->Navigations->find('all')->toList();
-
-        // reduce to one level array
-        $co = [];
-        $co = $this->flattenArray($currentNavigation, $co, 'children');
-
-        // remove already shown elements from database output
-        $navigations = $this->compareArraysAndRemoveExsting($navigations, $co);
-
-        $this->set(compact('navigations'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Navigation id.
-     * @return \Cake\Http\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $navigation = $this->Navigations->get($id, [
-            'contain' => ['ParentNavigations', 'ChildNavigations'],
-        ]);
-
-        $this->set('navigation', $navigation);
+        return $this->redirect(['action' => 'index']);
     }
 
     /**

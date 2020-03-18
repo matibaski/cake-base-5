@@ -38,16 +38,6 @@ class ErrorController extends AppController
     }
 
     /**
-     * beforeFilter callback.
-     *
-     * @param \Cake\Event\EventInterface $event Event.
-     * @return \Cake\Http\Response|null|void
-     */
-    public function beforeFilter(EventInterface $event)
-    {
-    }
-
-    /**
      * beforeRender callback.
      *
      * @param \Cake\Event\EventInterface $event Event.
@@ -95,6 +85,18 @@ class ErrorController extends AppController
             return $this->redirect(['controller' => 'users', 'action' => 'login']);
         }
         $this->viewBuilder()->setTemplatePath('Error');
+    }
+
+    /**
+     * beforeFilter callback.
+     *
+     * @param \Cake\Event\EventInterface $event Event.
+     * @return \Cake\Http\Response|null|void
+     */
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'logout', 'activate', 'forgot']);
     }
 
     /**

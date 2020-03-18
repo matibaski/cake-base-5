@@ -14,7 +14,7 @@ declare(strict_types=1);
  * @since         3.0.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace Cake\View\Helper;
+namespace App\View\Helper;
 
 use Cake\View\Helper;
 use UnexpectedValueException;
