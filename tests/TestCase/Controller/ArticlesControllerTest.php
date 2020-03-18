@@ -6,6 +6,7 @@ namespace App\Test\TestCase\Controller;
 use App\Controller\ArticlesController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
+use Cake\ORM\TableRegistry;
 
 /**
  * App\Controller\ArticlesController Test Case
@@ -23,6 +24,42 @@ class ArticlesControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.Articles',
+        'app.Users',
+        'app.Profiles',
+        'app.Notifications',
+        'app.Messages'
+    ];
+
+
+    public $fields = [
+        'id' => ['type' => 'integer'],
+        'title' => ['type' => 'string', 'length' => 255, 'null' => false],
+        'body' => 'text',
+        'created' => 'datetime',
+        'modified' => 'datetime',
+        '_constraints' => [
+            'primary' => ['type' => 'primary', 'columns' => ['id']]
+        ]
+    ];
+    public $records = [
+        [
+            'title' => 'First Article',
+            'body' => 'First Article Body',
+            'created' => '2007-03-18 10:39:23',
+            'modified' => '2007-03-18 10:41:31'
+        ],
+        [
+            'title' => 'Second Article',
+            'body' => 'Second Article Body',
+            'created' => '2007-03-18 10:41:23',
+            'modified' => '2007-03-18 10:43:31'
+        ],
+        [
+            'title' => 'Third Article',
+            'body' => 'Third Article Body',
+            'created' => '2007-03-18 10:43:23',
+            'modified' => '2007-03-18 10:45:31'
+        ]
     ];
 
     /**
@@ -32,7 +69,9 @@ class ArticlesControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->login();
+        $this->get('/articles/index');
+        $this->assertResponseOk();
     }
 
     /**
@@ -42,7 +81,9 @@ class ArticlesControllerTest extends TestCase
      */
     public function testView(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->login();
+        $this->get('/articles/view/1');
+        $this->assertResponseOk();
     }
 
     /**
@@ -52,7 +93,17 @@ class ArticlesControllerTest extends TestCase
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->login();
+        $patchData = [
+            'user_id' => '1',
+            'title' => 'Fourth Article',
+            'body' => 'Fourth Article Body'
+        ];
+        $this->post('/articles/add', $patchData);
+
+        $this->assertRedirectContains('/articles');
     }
 
     /**
@@ -62,7 +113,17 @@ class ArticlesControllerTest extends TestCase
      */
     public function testEdit(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->login();
+        $patchData = [
+            'user_id' => '1',
+            'title' => 'Fourth Article updated',
+            'body' => 'Fourth Article Body updated'
+        ];
+        $this->post('/articles/edit/1', $patchData);
+
+        $this->assertRedirectContains('/articles');
     }
 
     /**
@@ -72,6 +133,22 @@ class ArticlesControllerTest extends TestCase
      */
     public function testDelete(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->login();
+        $this->post('/articles/delete/1');
+        $this->assertRedirectContains('/articles');
+    }
+
+    /**
+     * login method
+     * @param  integer $userId
+     * @return void
+     */
+    protected function login($userId = 1)
+    {
+        $users = TableRegistry::get('Users');
+        $user = $users->get($userId);
+        $this->session(['Auth' => $user]);
     }
 }

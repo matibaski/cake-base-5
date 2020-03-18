@@ -36,7 +36,7 @@ $this->assign('load_scripts', serialize($loadScripts));
         </div>
     </div>
     <div class="col-12 mt-4 mb-4">
-        <?= $this->Form->create($navigations, ['id' => 'NavigationModifier']) ?>
+        <?= $this->Form->create($navigations, ['id' => 'NavigationModifier', 'action' => '/navigations/update']) ?>
             <?= $this->Form->control('order', ['class' => 'form-control', 'type' => 'hidden', 'id' => 'nestable-output']) ?>
             <div id="nestable-menu">
                 <?= $this->Form->button(__('Save order'), ['class'=>'btn btn-success']); ?>

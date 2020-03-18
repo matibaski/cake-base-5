@@ -68,7 +68,7 @@
                                 foreach($buttons as $button) {
                                     // check for PostLink 
                                     if(isset($button['link']['action']) && $button['link']['action'] == 'delete') {
-                                        if($authUser['role'] == 'admin') {
+                                        if(isset($authUser) && $authUser['role'] == 'admin') {
                                             $button['id'] = $button['link']['id'];
                                             $button['link'] = [
                                                 'controller' => $button['link']['controller'],
