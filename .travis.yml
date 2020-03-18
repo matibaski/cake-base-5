@@ -35,6 +35,7 @@ before_install:
   - cp config/app_local.example.php config/app_local.php
 
   - if [[ $DB == 'mysql' ]]; then mysql -u root -e 'CREATE DATABASE cake_base_5;'; fi
+  - if [[ $DB == 'mysql' ]]; then mysql -u root -e 'CREATE DATABASE cake_base_5_test;'; fi
   - if [[ $DB == 'mysql' ]]; then mysql -u root cake_base_5 < config/sql/default.sql; fi
 
   - |
