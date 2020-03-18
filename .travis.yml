@@ -20,7 +20,6 @@ env:
     - CODECOVERAGE=1
   matrix:
     - DB=mysql DB_DSN='mysql://root@127.0.0.1/cake_base_5?init[]=SET sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"'
-    - DB=pgsql DB_DSN='postgres://postgres@127.0.0.1/cake_base_5'
     - DB=sqlite DB_DSN='sqlite:///:memory:'
 
 matrix:
@@ -37,8 +36,6 @@ before_install:
 
   - if [[ $DB == 'mysql' ]]; then mysql -u root -e 'CREATE DATABASE cake_base_5;'; fi
   - if [[ $DB == 'mysql' ]]; then mysql -u root cake_base_5 < config/sql/default.sql; fi
-  - if [[ $DB == 'pgsql' ]]; then psql -c 'CREATE DATABASE cake_base_5;' -U postgres; fi
-  - if [[ $DB == 'pgsql' ]]; then psql cake_base_5 < config/sql/default.sql' -U postgres; fi
 
   - |
       if [[ $CODECOVERAGE == 1 ]]; then
