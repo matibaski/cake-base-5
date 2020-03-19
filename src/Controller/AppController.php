@@ -57,29 +57,20 @@ class AppController extends Controller
         
         //$this->loadComponent('FormProtection');
 
-        // load settings
+        // load settings, navigation and debug state
         $settings = \Cake\Core\Configure::read('Settings');
-
-        // get navigation
         $nav = \Cake\Core\Configure::read('Navigation');
-
-        // get debug state
         $debug = \Cake\Core\Configure::read('debug');
-
         $this->set(compact('settings', 'nav', 'debug'));
 
         // authenticated user
         if($this->Authentication->getResult()->isValid()) {
-            // $authUser = $this->Authentication->getIdentity()->getOriginalData();
-            $this->loadModel('Users');
-            $authUser = $this->Users->find()->where(['Users.id' => $this->Authentication->getIdentity()->id])->contain(['Profiles'])->first();
+            $authUser = $this->Authentication->getIdentity()->getOriginalData();
 
-            // fetch notifications
+            // fetch notifications & messages
             $this->loadComponent('Notification');
-            $notificationsBar = $this->Notification->fetch($authUser->id);
-
-            // fetch messages
             $this->loadComponent('Message');
+            $notificationsBar = $this->Notification->fetch($authUser->id);
             $messagesBar = $this->Message->fetch($authUser->id);
 
             $this->set(compact('authUser', 'notificationsBar', 'messagesBar'));
