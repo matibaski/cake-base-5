@@ -34,21 +34,11 @@ class ErrorController extends AppController
      */
     public function initialize(): void
     {
-        $this->loadComponent('RequestHandler');
-    }
-
-    /**
-     * beforeRender callback.
-     *
-     * @param \Cake\Event\EventInterface $event Event.
-     * @return \Cake\Http\Response|null|void
-     */
-    public function beforeRender(EventInterface $event)
-    {
-        parent::beforeRender($event);
+        parent::initialize();
+        $this->viewBuilder()->setTemplatePath('Error');
 
         // load components
-        $this->loadComponent('Flash');
+        /*$this->loadComponent('Flash');
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login'
         ]);
@@ -78,13 +68,21 @@ class ErrorController extends AppController
             $messagesBar = $this->Message->fetch($authUser['id']);
 
             $this->set(compact('authUser', 'notificationsBar', 'messagesBar'));
-
-        // if not logged in, redirect to login page
-        } else {
-            $this->Flash->error(__('You need to login to access that page.'));
-            return $this->redirect(['controller' => 'users', 'action' => 'login']);
         }
-        $this->viewBuilder()->setTemplatePath('Error');
+        $this->viewBuilder()->setTemplatePath('Error');*/
+
+        
+    }
+
+    /**
+     * beforeRender callback.
+     *
+     * @param \Cake\Event\EventInterface $event Event.
+     * @return \Cake\Http\Response|null|void
+     */
+    public function beforeRender(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeRender($event);
     }
 
     /**
@@ -96,7 +94,6 @@ class ErrorController extends AppController
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
-        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'logout', 'activate', 'forgot']);
     }
 
     /**
@@ -105,7 +102,8 @@ class ErrorController extends AppController
      * @param \Cake\Event\EventInterface $event Event.
      * @return \Cake\Http\Response|null|void
      */
-    public function afterFilter(EventInterface $event)
+    public function afterFilter(\Cake\Event\EventInterface $event)
     {
+        parent::beforeFilter($event);
     }
 }
