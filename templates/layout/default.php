@@ -168,6 +168,8 @@
     <script src="/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/plugins/jquery-easing/jquery.easing.min.js"></script>
     <script src="/plugins/jquery-timeago/jquery.timeago.js"></script>
+    <script src="/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/plugins/datatables/media/js/dataTables.bootstrap4.min.js"></script>
     <script src="/plugins/tinymce/tinymce.min.js"></script>
     <script src="/plugins/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>
     <script src="/js/main.js"></script>
