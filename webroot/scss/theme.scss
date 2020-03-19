@@ -24,6 +24,9 @@ $fa-font-path: "../plugins/font-awesome/webfonts" !default;
 // FONTAWESOME ICONPICKER
 @import "../plugins/fontawesome-iconpicker/dist/css/fontawesome-iconpicker";
 
+@import "../plugins/datatables/media/css/jquery.dataTables.min";
+@import "../plugins/datatables/media/css/dataTables.bootstrap4.min";
+
 // Import Custom SB Admin 2 Mixins and Components
 @import "mixins.scss";
 @import "global.scss";
@@ -41,6 +44,25 @@ $fa-font-path: "../plugins/font-awesome/webfonts" !default;
 
 // Custom modifications
 @import "nestable.scss";
+
+table.dataTable thead th, table.dataTable thead td  {
+    border-bottom: 2px solid #e3e6f0;
+}
+table.dataTable.no-footer {
+    border-bottom:0px;
+}
+div.dataTables_info {
+    color:#858796 !important;
+    font-size:70%;
+}
+div.dataTables_filter label {
+    color:#858796 !important;
+    font-size:70%;
+
+    input {
+        outline:none;
+    }
+}
 
 #toast {
     position:fixed;
