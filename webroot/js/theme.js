@@ -23,6 +23,9 @@ $(document).ready(function() {
 	$('a[data-tooltip]').tooltip();
 	$('.icp-auto').iconpicker();
 	$('.toast').toast('show');
+	$('.table').DataTable({
+		paging: false
+	});
 
 	$('.toast button[data-dismiss]').click(function(event) {
 		var id = $(this).attr('data-id');
