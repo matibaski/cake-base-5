@@ -25,9 +25,9 @@
 
         <?php
         if(isset($nav)) {
-            $this->element('sidebar', compact('nav'));
+            echo $this->element('sidebar', compact('nav'));
         } else {
-            $this->element('sidebar', ['nav' => []]);
+            echo $this->element('sidebar', ['nav' => []]);
         }
         ?>
         
