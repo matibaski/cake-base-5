@@ -18,7 +18,6 @@ namespace App\Controller;
 
 use Cake\Event\EventInterface;
 use App\Controller\AppController;
-use Cake\Datasource\ConnectionManager;
 
 /**
  * Error Handling Controller
@@ -34,7 +33,8 @@ class ErrorController extends AppController
      */
     public function initialize(): void
     {
-        $this->loadComponent('RequestHandler');
+        parent::initialize();
+        $this->viewBuilder()->setTemplatePath('Error');
     }
 
     /**
@@ -43,48 +43,9 @@ class ErrorController extends AppController
      * @param \Cake\Event\EventInterface $event Event.
      * @return \Cake\Http\Response|null|void
      */
-    public function beforeRender(EventInterface $event)
+    public function beforeRender(\Cake\Event\EventInterface $event)
     {
         parent::beforeRender($event);
-
-        // load components
-        $this->loadComponent('Flash');
-        $this->loadComponent('Authentication.Authentication', [
-            'logoutRedirect' => '/users/login'
-        ]);
-
-        // load settings
-        $settings = \Cake\Core\Configure::read('Settings');
-
-        // get navigation
-        $nav = \Cake\Core\Configure::read('Navigation');
-
-        // get debug state
-        $debug = \Cake\Core\Configure::read('debug');
-
-        $this->set(compact('settings', 'nav', 'debug'));
-
-        // check if user is logged in
-        if(isset($_SESSION['Auth']) && !empty($_SESSION['Auth'])) {
-            $this->loadModel('Users');
-            $authUser = $this->Users->find()->where(['Users.id' => $_SESSION['Auth']->id])->contain(['Profiles'])->first();
-
-            // fetch notifications
-            $this->loadComponent('Notification');
-            $notificationsBar = $this->Notification->fetch($authUser['id']);
-
-            // fetch messages
-            $this->loadComponent('Message');
-            $messagesBar = $this->Message->fetch($authUser['id']);
-
-            $this->set(compact('authUser', 'notificationsBar', 'messagesBar'));
-
-        // if not logged in, redirect to login page
-        } else {
-            $this->Flash->error(__('You need to login to access that page.'));
-            return $this->redirect(['controller' => 'users', 'action' => 'login']);
-        }
-        $this->viewBuilder()->setTemplatePath('Error');
     }
 
     /**
@@ -96,16 +57,5 @@ class ErrorController extends AppController
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
-        $this->Authentication->addUnauthenticatedActions(['login', 'register', 'logout', 'activate', 'forgot']);
-    }
-
-    /**
-     * afterFilter callback.
-     *
-     * @param \Cake\Event\EventInterface $event Event.
-     * @return \Cake\Http\Response|null|void
-     */
-    public function afterFilter(EventInterface $event)
-    {
     }
 }

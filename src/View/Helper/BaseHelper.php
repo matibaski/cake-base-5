@@ -79,16 +79,7 @@ class BaseHelper extends Helper
     public function pieChart(array $chartData)
     {
         if(count($chartData) > 6) {
-            $errorMsg = __('Max. 6 options for the pie chart.');
-            echo <<<EOL
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">$title</h6>
-                </div>
-                <div class="card-body">
-                    $errorMsg
-                </div>
-            </div>
+            echo __('Max. 6 options for the pie chart.');
             EOL;
             return;
         }
