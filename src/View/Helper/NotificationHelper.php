@@ -3,6 +3,7 @@ namespace App\View\Helper;
 
 use Cake\View\Helper;
 use Cake\I18n\Time;
+use Cake\ORM\TableRegistry;
 
 class NotificationHelper extends Helper
 {
@@ -52,5 +53,28 @@ class NotificationHelper extends Helper
 		}
 
 		return $notification;
+	}
+
+
+	/**
+	 * fetch method
+	 * Receive all notifications for $user_id as entity-array
+	 * 
+	 * @param  int    $user_id
+	 * @return array  $notifications
+	 */
+	public function fetch(int $user_id)
+	{
+		// load Model
+		$this->Notifications = TableRegistry::get('Notifications');
+
+		// get Notifications
+		$notifications = $this->Notifications->find()
+			->limit(4)
+			->where(['user_id' => $user_id])
+			->order(['created'=>'DESC'])
+			->toList();
+		
+		return $notifications;
 	}
 }

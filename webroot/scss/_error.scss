@@ -50,3 +50,91 @@
   clip: rect(0,900px,0,0);
   animation: noise-anim-2 3s infinite linear alternate-reverse;
 }
+
+div.error-section {
+  margin-top:2rem;
+
+  a.toggle-link {
+    transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+    border: 1px solid transparent;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    font-weight: 400;
+    color: #fff;
+    background-color: #1cc88a;
+    border-color: #1cc88a;
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(58,59,69,0.2) !important;
+    margin-bottom:1rem;
+
+    &:hover {
+      text-decoration:none;
+      color: #fff;
+      background-color: #17a673;
+      border-color: #169b6b;
+    }
+  }
+
+  ul.stack-trace {
+    list-style:none;
+    padding:0;
+    margin:0;
+
+    li {
+      border-bottom:1px solid #d4d3d4;
+      margin-bottom:0.5rem;
+      padding-bottom:0.5rem;
+
+      &:last-child {
+        border-bottom:0;
+        margin:0;
+        padding:0;
+      }
+
+      a {
+        font-size:.75rem;
+
+      }
+    }
+  }
+
+  div.error-inner {
+    position:relative;
+    overflow-x:auto;
+    padding:1rem;
+    background:#060606;
+    color:#d4d3d4;
+
+    p {
+      margin:1rem 0;
+    }
+
+    a.stack-frame-args {
+      position:absolute;
+      top:1rem;
+      right:1rem;
+    }
+
+    .error {
+      color:inherit;
+      font-size:inherit;
+      position:inherit;
+      line-height:inherit;
+      width:inherit;
+    }
+
+    div.error-suggestion {
+      border-top:1px solid #d4d3d4;
+      margin-top:1rem;
+      padding-top:1rem;
+    }
+
+    div.stack-frame-header {
+      margin-bottom:0.5rem;
+    }
+  }
+}

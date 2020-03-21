@@ -9,6 +9,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\Event\Event;
 use Cake\Datasource\EntityInterface;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 
 /**
  * Users Model
@@ -117,6 +118,25 @@ class UsersTable extends Table
         $validator
             ->boolean('disabled')
             ->notEmptyString('disabled');
+
+        // compare confirmed password if it matches to new password
+        $validator->add('password', [
+            'compare' => [
+                'rule' => ['compareWith', 'password_confirm'],
+                'message' => __('Passwords do not match.')
+            ]
+        ]);
+
+        // check if actual password form user is valid
+        $validator
+            ->notEmpty('current_password')
+                ->add('current_password', 'custom', [
+                    'rule' => function($value, $context) {
+                        $entity = $this->find()->where(['id' => $context['data']['id']])->first();
+                        return (new DefaultPasswordHasher)->check($value, $entity->password);
+                    },
+                    'message' => __('Current password is incorrect.')
+                ]);
 
         return $validator;
     }

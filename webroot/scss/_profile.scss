@@ -1,0 +1,142 @@
+.profile-page {
+  .profile-header {
+    box-shadow: 0 0 10px 0 rgba(183, 192, 206, 0.2);
+    border: 1px solid #f2f4f9;
+
+    .cover {
+      position: relative;
+      border-radius: .25rem .25rem 0 0;
+
+      .gray-shade {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        background: linear-gradient(rgba(255, 255, 255, 0.1), #fff 99%);
+      }
+
+      figure {
+        margin-bottom: 0;
+
+        img {
+          border-radius: .25rem .25rem 0 0;
+          width: 100%;
+        }
+      }
+
+      .cover-body {
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+        z-index: 2;
+        width: 100%;
+        padding: 0 20px;
+
+        .profile-pic {
+          border-radius: 50%;
+          width: 100px;
+        }
+
+        .profile-name {
+          font-size: 20px;
+          font-weight: 600;
+          margin-left: 17px;
+        }
+      }
+    }
+
+    .header-links {
+      padding: 15px;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: center;
+      justify-content: center;
+      background: #fff;
+      border-radius: 0 0 .25rem .25rem;
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          a {
+            color:#000;
+
+            &:hover {
+              color: #727cf5;
+              text-decoration:none;
+            }
+          }
+
+          &.active a {
+            color: #727cf5;
+            text-decoration:none;
+          }
+        }
+      }
+    }
+  }
+
+  .profile-body {
+    p {
+      font-size:0.8rem;
+    }
+
+    .right-wrapper {
+      .latest-photos {
+        & > .row {
+          margin-right: 0;
+          margin-left: 0;
+
+          & > div {
+            padding-left:3px;
+            padding-right:3px;
+
+            figure {
+              -webkit-transition: all .3s ease-in-out;
+              transition: all .3s ease-in-out;
+              margin-bottom: 6px;
+
+              img {
+                border-radius: .25rem;
+              }
+
+              &:hover {
+                -webkit-transform: scale(1.06);
+                transform: scale(1.06);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-page {
+    .profile-header {
+      .cover {
+        figure {
+          height: 110px;
+          overflow: hidden;
+
+          img {
+            -webkit-transform: scale(2);
+            transform: scale(2);
+            margin-top: 15px;
+          }
+        }
+
+        .cover-body {
+          .profile-pic {
+            width:70px;
+          }
+        }
+      }
+    }
+  }
+}

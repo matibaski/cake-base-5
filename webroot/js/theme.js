@@ -24,7 +24,8 @@ $(document).ready(function() {
 	$('.icp-auto').iconpicker();
 	$('.toast').toast('show');
 	$('.table').DataTable({
-		paging: false
+		"paging": false,
+		"ordering": false
 	});
 
 	$('.toast button[data-dismiss]').click(function(event) {
