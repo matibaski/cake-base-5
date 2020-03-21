@@ -18,7 +18,6 @@ namespace App\Controller;
 
 use Cake\Event\EventInterface;
 use App\Controller\AppController;
-use Cake\Datasource\ConnectionManager;
 
 /**
  * Error Handling Controller
@@ -36,42 +35,6 @@ class ErrorController extends AppController
     {
         parent::initialize();
         $this->viewBuilder()->setTemplatePath('Error');
-
-        // load components
-        /*$this->loadComponent('Flash');
-        $this->loadComponent('Authentication.Authentication', [
-            'logoutRedirect' => '/users/login'
-        ]);
-
-        // load settings
-        $settings = \Cake\Core\Configure::read('Settings');
-
-        // get navigation
-        $nav = \Cake\Core\Configure::read('Navigation');
-
-        // get debug state
-        $debug = \Cake\Core\Configure::read('debug');
-
-        $this->set(compact('settings', 'nav', 'debug'));
-
-        // check if user is logged in
-        if(isset($_SESSION['Auth']) && !empty($_SESSION['Auth'])) {
-            $this->loadModel('Users');
-            $authUser = $this->Users->find()->where(['Users.id' => $_SESSION['Auth']->id])->contain(['Profiles'])->first();
-
-            // fetch notifications
-            $this->loadComponent('Notification');
-            $notificationsBar = $this->Notification->fetch($authUser['id']);
-
-            // fetch messages
-            $this->loadComponent('Message');
-            $messagesBar = $this->Message->fetch($authUser['id']);
-
-            $this->set(compact('authUser', 'notificationsBar', 'messagesBar'));
-        }
-        $this->viewBuilder()->setTemplatePath('Error');*/
-
-        
     }
 
     /**
@@ -92,17 +55,6 @@ class ErrorController extends AppController
      * @return \Cake\Http\Response|null|void
      */
     public function beforeFilter(\Cake\Event\EventInterface $event)
-    {
-        parent::beforeFilter($event);
-    }
-
-    /**
-     * afterFilter callback.
-     *
-     * @param \Cake\Event\EventInterface $event Event.
-     * @return \Cake\Http\Response|null|void
-     */
-    public function afterFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
     }

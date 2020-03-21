@@ -48,14 +48,12 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Toast');
-
+        $this->loadComponent('Notification');
+        $this->loadComponent('Message');
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login'
         ]);
-
         // $this->viewBuilder()->setHelpers(['AssetCompress.AssetCompress']);
-        
-        //$this->loadComponent('FormProtection');
 
         // load settings, navigation and debug state
         $settings = \Cake\Core\Configure::read('Settings');
@@ -66,10 +64,6 @@ class AppController extends Controller
         // authenticated user
         if($this->Authentication->getResult()->isValid()) {
             $authUser = $this->Authentication->getIdentity()->getOriginalData();
-
-            // fetch notifications & messages
-            $this->loadComponent('Notification');
-            $this->loadComponent('Message');
             $notificationsBar = $this->Notification->fetch($authUser->id);
             $messagesBar = $this->Message->fetch($authUser->id);
 
