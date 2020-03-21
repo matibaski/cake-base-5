@@ -10,7 +10,7 @@ $this->assign('header_links', serialize($headerLinks));
 <div class="notifications index content col-sm-10 offset-sm-1 card p-3">
     <?php if(count($notifications) > 0): ?>
         <div class="table-responsive">
-            <table class="table no-border-top">
+            <table class="table datatable no-border-top">
                 <thead>
                     <tr>
                         <th><?= $this->Paginator->sort('title') ?></th>

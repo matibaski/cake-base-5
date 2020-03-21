@@ -14,16 +14,16 @@ $headerLinks = [
         'btn-class' => 'btn-success'
     ],
     [
-        'title' => __('Sent Messages'),
+        'title' => __('Inbox'),
         'link' => [
             'controller' => 'messages',
-            'action' => 'sent'
+            'action' => 'index'
         ],
         'icon' => 'fa-list',
         'btn-class' => 'btn-primary'
     ]
 ];
-$this->assign('header_title_top', 'Messages');
+$this->assign('header_title_top', 'Sent Messages');
 $this->assign('header_links', serialize($headerLinks));
 ?>
 <div class="messages index content col-sm-10 offset-sm-1 card p-3 mb-4">
@@ -32,9 +32,9 @@ $this->assign('header_links', serialize($headerLinks));
             <table class="table datatable no-border-top">
                 <thead>
                     <tr>
-                        <th><?= $this->Paginator->sort('from_user', __('From')) ?></th>
+                        <th><?= $this->Paginator->sort('to_user', __('Sent to')) ?></th>
                         <th><?= $this->Paginator->sort('seen') ?></th>
-                        <th><?= $this->Paginator->sort('created', __('Received')) ?></th>
+                        <th><?= $this->Paginator->sort('created', __('Sent')) ?></th>
                         <th class="actions"><?= __('Actions') ?></th>
                     </tr>
                 </thead>
@@ -46,7 +46,6 @@ $this->assign('header_links', serialize($headerLinks));
                             <td><?= $this->Time->format($message->created, "dd.MM.YYYY HH:mm") ?></td>
                             <td class="actions">
                                 <?= $this->Html->link('<i class="far fa-fw fa-eye"></i>', ['action' => 'view', $message->id], ['escape' => false, 'class' => 'btn btn-sm btn-primary', 'data-tooltip' => '', 'title' => __('View')]) ?>
-                                <?= $this->Form->postLink('<i class="far fa-fw fa-trash-alt"></i>', ['action' => 'delete', $message->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message->id), 'escape' => false, 'class' => 'btn btn-sm btn-danger', 'data-tooltip' => '', 'title' => __('Delete')]) ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

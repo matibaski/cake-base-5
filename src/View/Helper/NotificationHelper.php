@@ -41,7 +41,7 @@ class NotificationHelper extends Helper
 						<i class="far fa-bell fa-fw mr-2"></i> <strong>Notification</strong>
 					</a>
 					<small class="text-muted">${created}</small>
-					<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" data-id="${id}">
+					<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" data-id="${id}" data-from="notifications">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>

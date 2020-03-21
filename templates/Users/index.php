@@ -19,7 +19,7 @@ $this->assign('header_links', serialize($headerLinks));
 ?>
 <div class="users index content card p-3">
     <div class="table-responsive">
-        <table class="table no-border-top">
+        <table class="table datatable no-border-top">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
