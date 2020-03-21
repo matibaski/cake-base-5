@@ -11,6 +11,9 @@ $this->assign('header_links', serialize($headerLinks));
     <?= $this->Form->create($user) ?>
         <fieldset>
             <div class="form-group">
+                <?= $this->Form->control('current_password', ['class'=>'form-control', 'type'=>'password', 'label'=>'Enter current Password', 'value' => '']); ?>
+            </div>
+            <div class="form-group">
                 <?= $this->Form->control('password', ['class'=>'form-control', 'label'=>'Enter new Password', 'value' => '']); ?>
             </div>
             <div class="form-group">

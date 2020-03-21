@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Authentication\IdentityInterface;
 use Cake\ORM\Entity;
-use Cake\Datasource\ConnectionManager;
+use Cake\ORM\TableRegistry;
 
 /**
  * User Entity
@@ -83,12 +83,10 @@ class User extends Entity implements IdentityInterface
      */
     public function getOriginalData()
     {
-        $conn = ConnectionManager::get('default');
-        $stmt = $conn->execute('SELECT * FROM profiles WHERE user_id = ' . $this->id);
-        $results = $stmt->fetchAll('assoc');
-
-        $this->profile = $results[0];
-        // debug($this); exit;
+        $profile = TableRegistry::getTableLocator()->get('Profiles');
+        $profile = $profile->find()->where(['user_id'  => $this->id])->first();
+        $this->profile = $profile;
+        
         return $this;
     }
 }
