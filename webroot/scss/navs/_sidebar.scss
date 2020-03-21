@@ -370,3 +370,60 @@
     }
   }
 }
+
+@media(max-width: 767px) {
+  ul#accordionSidebar {
+    display:none;
+    position:absolute;
+    top:4.2rem;
+    left:0;
+    z-index:99999;
+    width:100% !important;
+    overflow:auto !important;
+    padding-bottom:2rem;
+    height:auto !important;
+    min-height:auto !important;
+
+    -webkit-transition: height 0.5s linear;
+    -moz-transition: height 0.5s linear;
+    -ms-transition: height 0.5s linear;
+    -o-transition: height 0.5s linear;
+    transition: height 0.5s linear;
+
+    &.toggled {
+      display:block !important;
+      -webkit-transition: height 0.5s linear;
+      -moz-transition: height 0.5s linear;
+      -ms-transition: height 0.5s linear;
+      -o-transition: height 0.5s linear;
+      transition: height 0.5s linear;
+    }
+
+    li {
+      a {
+        display:block;
+        width:100%;
+        text-align:left;
+        padding:15px 0;
+
+        i, span {
+          display:block;
+          float:left;
+          margin-left:1rem;
+        }
+      }
+    }
+
+    .sidebar-heading {
+      text-align:left;
+    }
+
+    .sidebar-brand .sidebar-brand-text {
+      display:block;
+    }
+
+    hr.sidebar-divider {
+      margin:1rem !important;
+    }
+  }
+}

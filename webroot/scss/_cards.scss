@@ -34,3 +34,41 @@
     }
   }
 }
+
+.card {
+  box-shadow: 0 0 10px 0 rgba(183, 192, 206, 0.2);
+  -webkit-box-shadow: 0 0 10px 0 rgba(183, 192, 206, 0.2);
+  -moz-box-shadow: 0 0 10px 0 rgba(183, 192, 206, 0.2);
+  -ms-box-shadow: 0 0 10px 0 rgba(183, 192, 206, 0.2);
+  border:0;
+  position: relative;
+  border-radius: .25rem .25rem 0 0;
+
+  p {
+    margin:0;
+  }
+
+  .card-header {
+    &:first-child {
+      border-radius: 0 0 0 0;
+    }
+  }
+
+  .card-title {
+    color: #000;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+    font-size: .875rem;
+    font-weight: 600;
+  }
+
+  .card-footer {
+    padding: 0.875rem 1.5rem;
+    background-color: rgba(0, 0, 0, 0);
+    border-top: 1px solid #f2f4f9;
+
+    &:last-child {
+      border-radius:0 0 0 0;
+    }
+  }
+}

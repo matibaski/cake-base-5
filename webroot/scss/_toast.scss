@@ -1,0 +1,39 @@
+#toast {
+    position:fixed;
+    bottom:3rem;
+    right:3rem;
+
+    .toast {
+        min-width:240px;
+
+        a:hover {
+            text-decoration:none;
+        }
+
+        // colorized
+        &.toast-success, &.toast-error {
+            .toast-header {
+                color:#fff;
+
+                button {
+                    color:#fff;
+                }
+            }
+        }
+
+        &.toast-success .toast-header {
+            background-color: rgba(87, 218, 44, 0.85);
+        }
+
+        &.toast-error .toast-header {
+            background-color: rgba(247, 49, 49, 0.85);
+        }
+    }
+}
+
+@media(max-width:37em) {
+    #toast {
+        right:50%;
+        transform:translateX(50%);
+    }
+}

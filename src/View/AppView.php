@@ -41,6 +41,7 @@ class AppView extends View
         $this->loadHelper('Base');
         $this->loadHelper('Navigation');
         $this->loadHelper('Notification');
+        $this->loadHelper('Message');
         $this->loadHelper('AssetCompress.AssetCompress');
     }
 }
