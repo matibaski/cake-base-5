@@ -13,29 +13,30 @@ cache:
     - $HOME/.composer/cache
 
 php:
-  - 7.3
+  - 7.4
 
 env:
   global:
     - CODECOVERAGE=1
   matrix:
-    - DB=mysql DB_DSN='mysql://root@127.0.0.1/cakephp_test?init[]=SET sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"'
-    - DB=pgsql DB_DSN='postgres://postgres@127.0.0.1/cakephp_test'
-    - DB=sqlite DB_DSN='sqlite:///:memory:'
+    - DB=mysql DB_DSN='mysql://root@127.0.0.1/cake_base_5?init[]=SET sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"'
 
 matrix:
   fast_finish: true
 
   include:
-    - php: 7.2
+    - php: 7.4
       env: PREFER_LOWEST=1 CODECOVERAGE=0
 
 before_install:
   - echo cakephp version && tail -1 VERSION.txt
   - cp config/settings.example.php config/settings.php
+  - cp config/app_local.example.php config/app_local.php
 
-  - if [[ $DB == 'mysql' ]]; then mysql -u root -e 'CREATE DATABASE cakephp_test;'; fi
-  - if [[ $DB == 'pgsql' ]]; then psql -c 'CREATE DATABASE cakephp_test;' -U postgres; fi
+  - if [[ $DB == 'mysql' ]]; then mysql -u root -e 'CREATE DATABASE cake_base_5;'; fi
+  - if [[ $DB == 'mysql' ]]; then mysql -u root -e 'CREATE DATABASE cake_base_5_test;'; fi
+  - if [[ $DB == 'mysql' ]]; then mysql -u root cake_base_5 < config/sql/default.sql; fi
+  - if [[ $DB == 'mysql' ]]; then mysql -u root cake_base_5_test < config/sql/default.sql; fi
 
   - |
       if [[ $CODECOVERAGE == 1 ]]; then
@@ -44,7 +45,6 @@ before_install:
       fi
   - phpenv config-rm xdebug.ini
 
-  - echo 'extension = memcached.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini;
   - echo 'extension = redis.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo 'extension = apcu.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo 'apc.enable_cli = 1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -53,18 +53,10 @@ before_install:
 
 install:
   - |
-      if [[ $CODECOVERAGE == 1 ]]; then
-        composer install --prefer-dist --no-interaction
-      else
-        composer update --prefer-lowest --prefer-stable --no-interaction
-      fi
+      composer install --prefer-dist --no-interaction
 script:
   - |
-      if [[ $CODECOVERAGE == 1 ]]; then
-        vendor/bin/phpunit --verbose --coverage-clover=clover.xml
-      else
-        vendor/bin/phpunit --verbose
-      fi
+      vendor/bin/phpunit
 after_success:
   - |
       if [[ $CODECOVERAGE == 1 ]]; then
