@@ -30,6 +30,23 @@ class MessagesController extends AppController
     }
 
     /**
+     * Sent method
+     *
+     * @return \Cake\Http\Response|null
+     */
+    public function sent()
+    {
+        $messages = $this->paginate($this->Messages
+            ->find('all')
+            ->contain(['FromUsers' => ['Profiles'], 'ToUsers' => ['Profiles']])
+            ->where(['Messages.from_user_id' => $this->Authentication->getIdentity()->id])
+            ->order(['Messages.created' => 'DESC'])
+        );
+
+        $this->set(compact('messages'));
+    }
+
+    /**
      * View method
      *
      * @param string|null $id Message id.
@@ -93,5 +110,34 @@ class MessagesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    /**
+     * toggleajax method
+     * 
+     * @param  int $id
+     * @return null
+     */
+    public function toggleajax($id)
+    {
+        $this->layout = false;
+
+        if($this->request->is(['ajax', 'get'])) {
+            if(!$this->Messages->get($id)) {
+                echo '404';
+            }
+
+            $toggle = [
+                'seen' => true
+            ];
+            $message = $this->Messages->get($id);
+            $message = $this->Messages->patchEntity($message, $toggle);
+            if($this->Messages->save($message)) {
+                echo '200';
+            } else {
+                echo '500';
+            }
+        }
+        exit;
     }
 }

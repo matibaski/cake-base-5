@@ -1,3 +1,9 @@
-<?php if(isset($notificationsBar)): ?>
-	<?= $this->Notification->generateToasts($notificationsBar); ?>
-<?php endif; ?>
+<?php
+if(isset($notificationsBar)) {
+	echo $this->Notification->generateToasts($notificationsBar);
+}
+
+if(isset($messagesBar)) {
+	echo $this->Message->generateToasts($messagesBar);
+}
+?>

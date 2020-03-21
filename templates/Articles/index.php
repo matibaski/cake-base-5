@@ -20,7 +20,7 @@ $this->assign('header_links', serialize($headerLinks));
 <div class="articles index content col-sm-10 offset-sm-1 card p-4 mb-4">
     <?php if(count($articles) > 0): ?>
         <div class="table-responsive">
-            <table class="table no-border-top">
+            <table class="table datatable no-border-top">
                 <thead>
                     <tr>
                         <th><?= $this->Paginator->sort('title') ?></th>

@@ -23,14 +23,15 @@ $(document).ready(function() {
 	$('a[data-tooltip]').tooltip();
 	$('.icp-auto').iconpicker();
 	$('.toast').toast('show');
-	$('.table').DataTable({
-		paging: false
+	$('.datatable').DataTable({
+		"paging": false,
+		"ordering": false
 	});
 
 	$('.toast button[data-dismiss]').click(function(event) {
 		var id = $(this).attr('data-id');
 		$.ajax({
-			url: '/notifications/toggleajax/' + id,
+			url: '/' + $(this).attr('data-from') + '/toggleajax/' + id,
 			success: function(result) {
 				if(result == '404') {
 					console.log('Notification #' + id + ' not found.');

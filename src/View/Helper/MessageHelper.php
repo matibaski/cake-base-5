@@ -5,8 +5,9 @@ use Cake\View\Helper;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
 
-class NotificationHelper extends Helper
+class MessageHelper extends Helper
 {
+
 	public $helpers = ['Time'];
 
 	/**
@@ -19,7 +20,7 @@ class NotificationHelper extends Helper
 	 */
 	public function generateToasts($toasts, $delay = 10000)
 	{
-		$notification = '';
+		$message = '';
 
 		foreach($toasts as $toast) {
 			if($toast->seen) {
@@ -31,50 +32,55 @@ class NotificationHelper extends Helper
 			    ['format' => 'MMM d, YYY', 'end' => '+1 year']
 			);
 
-			$title = $toast->title;
-			$content = $toast->description;
+			$from = $toast->from_user->profile->name;
+			$content = mb_strimwidth($toast->message, 0, 24, " ...");
 			$id = $toast->id;
-			$notification .= <<<HTML
+			$message .= <<<HTML
 			<div class="toast" role="alert" aria-live="polite" aria-atomic="true" data-delay="${delay}">
 				<div class="toast-header">
-					<a href="/notifications/view/${id}" class="mr-auto">
-						<i class="far fa-bell fa-fw mr-2"></i> <strong>Notification</strong>
+					<a href="/messages/view/${id}" class="mr-auto">
+						<i class="far fa-envelope fa-fw mr-2"></i> <strong>Message</strong>
 					</a>
 					<small class="text-muted">${created}</small>
-					<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" data-id="${id}" data-from="notifications">
+					<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" data-id="${id}" data-from="messages">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="toast-body">
-					<p><strong>${title}</strong><br />${content}</p>
+					<p>
+						<strong>From:</strong> $from<br />
+					</p>
+					<p>
+						${content}<br />
+						<a href="/messages/view/${id}">Read more</a>
+					</p>
 				</div>
 			</div>
-HTML;
+			HTML;
 		}
 
-		return $notification;
+		return $message;
 	}
-
 
 	/**
 	 * fetch method
-	 * Receive all notifications for $user_id as entity-array
+	 * Receive all messages for $user_id as entity-array
 	 * 
 	 * @param  int    $user_id
-	 * @return array  $notifications
+	 * @return array  $messages
 	 */
 	public function fetch(int $user_id)
 	{
 		// load Model
-		$this->Notifications = TableRegistry::get('Notifications');
+		$this->Messages = TableRegistry::get('Messages');
 
-		// get Notifications
-		$notifications = $this->Notifications->find()
+		// get Messages
+		$messages = $this->Messages->find()
 			->limit(4)
-			->where(['user_id' => $user_id])
+			->where(['to_user_id' => $user_id])
 			->order(['created'=>'DESC'])
 			->toList();
 		
-		return $notifications;
+		return $messages;
 	}
 }

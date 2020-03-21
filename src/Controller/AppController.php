@@ -48,38 +48,23 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Toast');
-
+        $this->loadComponent('Notification');
+        $this->loadComponent('Message');
         $this->loadComponent('Authentication.Authentication', [
             'logoutRedirect' => '/users/login'
         ]);
-
         // $this->viewBuilder()->setHelpers(['AssetCompress.AssetCompress']);
-        
-        //$this->loadComponent('FormProtection');
 
-        // load settings
+        // load settings, navigation and debug state
         $settings = \Cake\Core\Configure::read('Settings');
-
-        // get navigation
         $nav = \Cake\Core\Configure::read('Navigation');
-
-        // get debug state
         $debug = \Cake\Core\Configure::read('debug');
-
         $this->set(compact('settings', 'nav', 'debug'));
 
         // authenticated user
         if($this->Authentication->getResult()->isValid()) {
-            // $authUser = $this->Authentication->getIdentity()->getOriginalData();
-            $this->loadModel('Users');
-            $authUser = $this->Users->find()->where(['Users.id' => $this->Authentication->getIdentity()->id])->contain(['Profiles'])->first();
-
-            // fetch notifications
-            $this->loadComponent('Notification');
+            $authUser = $this->Authentication->getIdentity()->getOriginalData();
             $notificationsBar = $this->Notification->fetch($authUser->id);
-
-            // fetch messages
-            $this->loadComponent('Message');
             $messagesBar = $this->Message->fetch($authUser->id);
 
             $this->set(compact('authUser', 'notificationsBar', 'messagesBar'));

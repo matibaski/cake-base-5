@@ -25,9 +25,7 @@
 
         <?php
         if(isset($nav)) {
-            $this->element('sidebar', compact('nav'));
-        } else {
-            $this->element('sidebar', ['nav' => []]);
+            echo $this->element('sidebar');
         }
         ?>
         
@@ -57,7 +55,7 @@
                         </div>
                     </form>
 
-                    <?= $this->element('topbar') ?>
+                    <?= $this->element('topbar'); ?>
                 </nav>
                 <!-- End of Topbar -->
 
@@ -65,13 +63,32 @@
                 <div class="container-fluid">
                     <!-- Begin Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800"><?= ((isset($debug) && $debug) && (isset($authUser) && $authUser->role != 'admin')) ? $this->fetch('title') : $this->fetch('title') ; ?></h1>
+                        <h1 class="h3 mb-0 text-gray-800">
+                            <?php
+                            if( (isset($debug) && $debug) && (isset($authUser) && $authUser->role == 'admin') ) {
+                                echo $this->fetch('title');
+                            } elseif(!isset($debug) && !isset($authUser)) {
+                                echo $this->fetch('title');
+                            }
+                            ?>
+                        </h1>
                     </div>
                     <!-- End Page Heading -->
                     <?= $this->Flash->render() ?>
-                    <?= (isset($authUser) && $authUser->role != 'admin') ? $this->fetch('content') : '';  ?>
+                    <?php
+                    if( (isset($debug) && !$debug) || (isset($authUser) && $authUser->role != 'admin') ) {
+                        echo $this->fetch('content');
+                    } elseif(!isset($debug) && !isset($authUser)) {
+                        echo $this->fetch('content');
+                    }
+                    ?>
 
-                    <?php if((isset($debug) && $debug) &&(isset($authUser) && $authUser->role == 'admin')): ?>
+                    <?php
+                    if(
+                        (isset($debug) && $debug) && (isset($authUser) && $authUser->role == 'admin') || 
+                        (!isset($debug) && !isset($authUser))
+                    ):
+                    ?>
                         <div class="error-section">
                             <div class="row">
                                 <div class="col-md-4">
@@ -150,7 +167,10 @@
     </div>
 
     <!-- Toast -->
-    <?= $this->element('toasts') ?>
+    <div id="toast" aria-live="polite" aria-atomic="true">
+        <?= $this->Toast->render() ?>
+        <?= $this->element('toasts') ?>
+    </div>
 
     <script src="/plugins/jquery/jquery.min.js"></script>
     <script src="/plugins/jqueryui/jquery-ui.min.js"></script>
