@@ -129,7 +129,7 @@ class UsersTable extends Table
 
         // check if actual password form user is valid
         $validator
-            ->notEmpty('current_password')
+            ->notEmptyString('current_password')
                 ->add('current_password', 'custom', [
                     'rule' => function($value, $context) {
                         $entity = $this->find()->where(['id' => $context['data']['id']])->first();
