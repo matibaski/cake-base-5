@@ -32,8 +32,11 @@ class Message extends Entity
     protected $_accessible = [
         'to_user_id' => true,
         'from_user_id' => true,
+        'subject' => true,
         'message' => true,
         'seen' => true,
+        'important' => true,
+        'deleted' => true,
         'created' => true,
         'to_user' => true,
         'from_user' => true,

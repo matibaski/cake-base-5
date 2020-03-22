@@ -27,6 +27,8 @@ $fa-font-path: "../plugins/font-awesome/webfonts" !default;
 @import "../plugins/datatables/media/css/jquery.dataTables.min";
 @import "../plugins/datatables/media/css/dataTables.bootstrap4.min";
 
+// @import "../plugins/summernote/summernote-bs4.min";
+
 // Import Custom SB Admin 2 Mixins and Components
 @import "mixins";
 @import "global";
@@ -46,3 +48,4 @@ $fa-font-path: "../plugins/font-awesome/webfonts" !default;
 @import "nestable";
 @import "toast";
 @import "profile";
+@import "mailbox";

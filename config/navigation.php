@@ -28,10 +28,10 @@ return
                 'id' => 16,
             ],
             1 => [
-                'link' => 'a:4:{s:10:"controller";s:8:"messages";s:6:"action";s:5:"index";s:5:"pass0";s:0:"";s:5:"pass1";s:0:"";}',
                 'icon' => 'far fa-envelope',
-                'title' => 'Messages',
-                'id' => 17,
+                'title' => 'Mailbox',
+                'link' => 'a:4:{s:10:"controller";s:8:"messages";s:6:"action";s:5:"inbox";s:5:"pass0";s:0:"";s:5:"pass1";s:0:"";}',
+                'id' => '17',
             ],
             2 => [
                 'link' => 'a:4:{s:10:"controller";s:13:"notifications";s:6:"action";s:5:"index";s:5:"pass0";s:0:"";s:5:"pass1";s:0:"";}',
