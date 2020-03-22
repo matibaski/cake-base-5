@@ -22,7 +22,11 @@ class UsersController extends AppController
         if($this->Authentication->getIdentity()->role != 'admin') {
             return $this->redirect(['action' => 'view', $this->Authentication->getIdentity()->id]);
         }
-        $query = $this->Users->find('all');
+
+        $query = $this->Users->find()->where(['disabled' => false]);
+        if($this->request->getParam('pass.0') == 'disabled') {
+            $query = $this->Users->find()->where(['disabled' => true]);
+        }
         $users = $this->paginate($query);
 
         $this->set(compact('users'));
@@ -179,14 +183,8 @@ class UsersController extends AppController
 
         if ($this->request->is('post')) {
 
-            // check if passwords match
-            $data = $this->request->getData();
-            if($data['password'] != $data['password_confirm']) {
-                return $this->Toast->error(__('Passwords do not match.'));
-            }
-            unset($data['password_confirm']);
-            
             // generate activation key
+            $data = $this->request->getData();
             $data['activation_hash'] = sha1(mt_rand(10000,99999).time().$data['username']);
             $data['role'] = 'user';
             

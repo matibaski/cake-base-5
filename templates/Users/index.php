@@ -14,6 +14,30 @@ $headerLinks = [
         'btn-class' => 'btn-success'
     ]
 ];
+
+if($this->request->getParam('pass.0') == 'disabled') {
+    $headerLinks[] = [
+        'title' => __('Active Users'),
+        'link' => [
+            'controller' => 'users',
+            'action' => 'index'
+        ],
+        'icon' => 'fa-list',
+        'btn-class' => 'btn-primary'
+    ];
+} else {
+    $headerLinks[] = [
+        'title' => __('Disabled Users'),
+        'link' => [
+            'controller' => 'users',
+            'action' => 'index',
+            'disabled'
+        ],
+        'icon' => 'fa-list',
+        'btn-class' => 'btn-primary'
+    ];
+}
+
 $this->assign('header_title_top', 'Users');
 $this->assign('header_links', serialize($headerLinks));
 ?>
