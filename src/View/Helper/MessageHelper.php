@@ -33,7 +33,7 @@ class MessageHelper extends Helper
 			);
 
 			$from = $toast->from_user->profile->name;
-			$subject = $message->subject;
+			$subject = $toast->subject;
 			$id = $toast->id;
 			$message .= <<<HTML
 			<div class="toast" role="alert" aria-live="polite" aria-atomic="true" data-delay="${delay}">
@@ -48,11 +48,9 @@ class MessageHelper extends Helper
 				</div>
 				<div class="toast-body">
 					<p>
-						<strong>From:</strong> $from<br />
-					</p>
-					<p>
-						${subject}<br />
-						<a href="/messages/view/${id}">Read more</a>
+						<strong>From: </strong>$from<br />
+						<strong>Subject: </strong>${subject}<br />
+						<a href="/messages/view/${id}" class="float-right">Read more</a>
 					</p>
 				</div>
 			</div>
