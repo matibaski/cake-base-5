@@ -65,6 +65,12 @@ $routes->scope('/', function (RouteBuilder $builder) {
     $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
     $builder->connect('/settings', ['controller' => 'Settings', 'action' => 'settings']);
 
+    $builder->connect('/messages/inbox', ['controller' => 'Messages', 'action' => 'index']);
+    $builder->connect('/messages/sent', ['controller' => 'Messages', 'action' => 'index', 'sent']);
+    $builder->connect('/messages/trash', ['controller' => 'Messages', 'action' => 'index', 'trash']);
+    $builder->connect('/messages/new', ['controller' => 'Messages', 'action' => 'add']);
+    $builder->connect('/messages/reply/*', ['controller' => 'Messages', 'action' => 'add']);
+
     /*
      * ...and connect the rest of 'Pages' controller's URLs.
      */

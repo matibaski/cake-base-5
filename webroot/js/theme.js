@@ -20,7 +20,7 @@ $(document).ready(function() {
 	$('a.collapse-item.active').parent().parent().addClass('show');
 
 	// load plugins
-	$('a[data-tooltip]').tooltip();
+	$('[data-tooltip], [data-toggle="tooltip"]').tooltip();
 	$('.icp-auto').iconpicker();
 	$('.toast').toast('show');
 	$('.datatable').DataTable({

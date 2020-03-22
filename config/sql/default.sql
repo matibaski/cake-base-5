@@ -54,17 +54,13 @@ CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
   `to_user_id` int(11) NOT NULL,
   `from_user_id` int(11) NOT NULL,
+  `subject` varchar(255) DEFAULT NULL,
   `message` text,
   `seen` tinyint(1) NOT NULL DEFAULT '0',
+  `important` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Daten für Tabelle `messages`
---
-
-INSERT INTO `messages` (`id`, `to_user_id`, `from_user_id`, `message`, `seen`, `created`) VALUES
-(1, 1, 2, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 1, '2020-03-12 18:41:02');
 
 -- --------------------------------------------------------
 
@@ -92,7 +88,7 @@ INSERT INTO `navigations` (`id`, `icon`, `title`, `link`) VALUES
 (11, 'fas fa-user', 'Users', 'a:4:{s:10:\"controller\";s:8:\"users\";s:6:\"action\";s:5:\"index\";s:5:\"pass0\";s:0:\"\";s:5:\"pass1\";s:0:\"\";}'),
 (15, NULL, 'My App', NULL),
 (16, 'far fa-file-alt', 'Articles', 'a:4:{s:10:\"controller\";s:8:\"articles\";s:6:\"action\";s:5:\"index\";s:5:\"pass0\";s:0:\"\";s:5:\"pass1\";s:0:\"\";}'),
-(17, 'far fa-envelope', 'Messages', 'a:4:{s:10:\"controller\";s:8:\"messages\";s:6:\"action\";s:5:\"index\";s:5:\"pass0\";s:0:\"\";s:5:\"pass1\";s:0:\"\";}'),
+(17, 'far fa-envelope', 'Mailbox', 'a:4:{s:10:\"controller\";s:8:\"messages\";s:6:\"action\";s:5:\"inbox\";s:5:\"pass0\";s:0:\"\";s:5:\"pass1\";s:0:\"\";}'),
 (23, 'far fa-bell', 'Notifications', 'a:4:{s:10:\"controller\";s:13:\"notifications\";s:6:\"action\";s:5:\"index\";s:5:\"pass0\";s:0:\"\";s:5:\"pass1\";s:0:\"\";}'),
 (26, NULL, 'Errorpages', NULL),
 (27, 'fas fa-exclamation-triangle', 'Error 404', 'a:4:{s:10:\"controller\";s:6:\"groups\";s:6:\"action\";s:5:\"index\";s:5:\"pass0\";s:0:\"\";s:5:\"pass1\";s:0:\"\";}');
