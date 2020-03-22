@@ -119,8 +119,9 @@
 								<?php if(!$message->seen): ?><div class="status-indicator bg-danger"></div><?php endif; ?>
 							</div>
 							<div<?php if(!$message->seen): ?> class="font-weight-bold"<?php endif; ?>>
-								<div class="text-truncate"><small><?= __('From') ?>:</small> <?= (isset($message->from_user->profile->name)) ? $message->from_user->profile->name : '<i>' . __('unknown') . '</i>'; ?></div>
+								<div class="text-truncate"><?= $message->subject ?></div>
 								<div class="small text-gray-500">
+									<?php /*<small><?= __('From') ?>:</small> <?= (isset($message->from_user->profile->name)) ? $message->from_user->profile->name : '<i>' . __('unknown') . '</i>'; ?><br />*/ ?>
 									<?= $this->Time->timeAgoInWords($message->created) ?>
 								</div>
 							</div>
