@@ -84,7 +84,7 @@ class User extends Entity implements IdentityInterface
     public function getOriginalData()
     {
         $profile = TableRegistry::getTableLocator()->get('Profiles');
-        $profile = $profile->get(['user_id' => $this->id]);
+        $profile = $profile->find()->where(['user_id' => $this->id])->first();
         $this->profile = $profile;
         return $this;
     }
