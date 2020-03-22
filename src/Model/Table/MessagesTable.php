@@ -7,6 +7,9 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Event\Event;
+use Cake\Datasource\EntityInterface;
+use Cake\Authentication\Authentication;
 
 /**
  * Messages Model
@@ -49,7 +52,7 @@ class MessagesTable extends Table
             'foreignKey' => 'to_user_id',
             'joinType' => 'INNER',
             'className' => 'Users',
-            'propertyName' => 'from_user'
+            'propertyName' => 'to_user'
         ]);
         $this->belongsTo('FromUsers', [
             'foreignKey' => 'from_user_id',
@@ -72,12 +75,12 @@ class MessagesTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->scalar('message')
-            ->allowEmptyString('message');
+            ->scalar('subject')
+            ->allowEmptyString('subject');
 
         $validator
-            ->boolean('seen')
-            ->notEmptyString('seen');
+            ->scalar('message')
+            ->notEmptyString('message');
 
         return $validator;
     }
@@ -95,5 +98,20 @@ class MessagesTable extends Table
         $rules->add($rules->existsIn(['from_user_id'], 'FromUsers'));
 
         return $rules;
+    }
+
+    /**
+     * Modify data before saving to database
+     * 
+     * @param  \Cake\Event\Event $event
+     * @param  \Cake\Datasource\EntityInterface $entity
+     * @return \Cake\Datasource\EntityInterface
+     */
+    public function beforeSave(Event $event, EntityInterface $entity)
+    {
+        if(!isset($entity->from_user_id) && isset($_SESSION['Auth'])) {
+            $entity->from_user_id = $_SESSION['Auth']->id;
+            return $entity;
+        }
     }
 }
