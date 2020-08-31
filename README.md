@@ -23,16 +23,17 @@ The framework source code can be found here: [cakephp/cakephp](https://github.co
    -> Edit database configuration
    -> Edit mail transport configration
 4. Clone `/config/settings.example.php` to `/config/settings.php`
-5. Edit `/config/settings.php`:
+5. Clone `/config/navigation.example.php` to `/config/navigation.php`
+6. Edit `/config/settings.php`:
    -> Edit Project name
-6. Import SQL Dump from `/config/sql/default.sql` to MySQL/MariaDB
-7. Run again `composer install` (to create SALT key, symlinks, folder permissions and copy plugins to webroot)
-7. In Terminal go to root directory of project and run:
+7. Import SQL Dump from `/config/sql/default.sql` to MySQL/MariaDB
+8. Run again `composer install` (to create SALT key, symlinks, folder permissions and copy plugins to webroot)
+9. In Terminal go to root directory of project and run:
 ```bash
 bin/cake server
 ```
-8. Visit `http://localhost:8765`.
-9. Logins
+10. Visit `http://localhost:8765`.
+11. Logins
    - admin@cakebase.com / `$123Vier!`
    - user@cakebase.com  / `$123Vier!`
 
