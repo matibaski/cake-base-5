@@ -4,6 +4,7 @@
 /logs/*
 /tmp/*
 /config/settings.php
+/config/navigation.php
 
 # 3rd-party plugins
 /webroot/plugins/*
