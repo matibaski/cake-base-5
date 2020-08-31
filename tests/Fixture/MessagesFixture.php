@@ -41,13 +41,14 @@ class MessagesFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
-                'to_user_id' => 1,
-                'from_user_id' => 1,
+                'id' => '1',
+                'to_user_id' => '1',
+                'from_user_id' => '1',
                 'message' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-                'seen' => 1,
+                'seen' => '1',
                 'created' => '2020-03-15 01:42:25',
             ],
+
         ];
         parent::init();
     }
